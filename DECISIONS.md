@@ -14,10 +14,10 @@ stadium cards, large media panel, dark four-column footer). No Mastercard copy, 
 Matches the geometric logo wordmark and the all-sans look of the reference layout. Playfair Display (§8.3) is not used.
 
 ## D-004 · AI-generated people, illustrated product scenes
-People photos (hero, carousel, oval tiles, stadium cards, page heroes) were generated in Figma AI
+People photos (hero, oval tiles, stadium cards, page heroes) were generated in Figma AI
 (file "Rentife — Website People") at the owner's request. They show fictional Kenyan people, not real
 individuals; wardrobe and setting match each section (landlords, agents, caretakers, tenants, diaspora
-owners). Web copies are WebP in `public/people/`; full-size PNG masters stay in Figma and out of git.
+owners). The home carousel shows generated rental properties typical of Nairobi areas instead. Web copies are WebP in `public/people/`; full-size PNG masters stay in Figma and out of git.
 Product scenes (receipts, ring, feed) remain HTML illustrations with fictional demo data until real
 app screenshots exist. Swap in licensed or commissioned photography ({{PHOTO_SOURCE}}) if preferred.
 

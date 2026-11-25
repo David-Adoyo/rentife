@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1 · 25 Nov 2026
+- Home page carousel now shows rental properties across Nairobi (Kasarani, Ruaka, Rongai, Kilimani, South B, Westlands) with a location label on each slide.
+
 ## 0.3.0 · 25 Nov 2026
 - Booking leads are saved to Supabase through an insert-only database login; spam honeypot added.
 

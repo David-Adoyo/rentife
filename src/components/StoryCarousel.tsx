@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Pause, Play } from "@phosphor-icons/react";
 import { Scene, type SceneKind, type SceneTone } from "./Vignettes";
 
-export type Story = { tag: string; title: string; href: string; scene: SceneKind; tone: SceneTone; photo?: string; position?: string };
+export type Story = { tag: string; title: string; href: string; scene: SceneKind; tone: SceneTone; photo?: string; position?: string; place?: string };
 
 export function StoryCarousel({ stories }: { stories: Story[] }) {
   const [index, setIndex] = useState(0);
@@ -67,6 +67,12 @@ export function StoryCarousel({ stories }: { stories: Story[] }) {
               <span className="absolute left-[10%] top-[16%] rounded-full bg-white px-3.5 py-1.5 text-sm font-semibold text-ink-900 shadow-soft">
                 {s.tag}
               </span>
+              {s.place && (
+                <span className="absolute right-[10%] top-[16%] hidden items-center gap-1.5 rounded-full bg-plum-900/55 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm sm:flex">
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-pink-500" />
+                  {s.place}
+                </span>
+              )}
               <span className="absolute bottom-[12%] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-6 py-3 text-lg font-medium text-ink-900 shadow-float sm:text-2xl">
                 {s.title}
               </span>

@@ -8,12 +8,12 @@ import { Faq, FinalCta, OvalTiles, StadiumCard, type Tile } from "@/components/S
 import { CollectionRing, Scene } from "@/components/Vignettes";
 
 const stories: Story[] = [
-  { tag: "Reminders", title: "Never chase rent", href: "/how-it-works#reminders", scene: "reminder", tone: "plum", photo: "/people/carousel-reminders.webp", position: "40% 40%" },
-  { tag: "Matching", title: "Smart matching", href: "/how-it-works#matching", scene: "match", tone: "pink", photo: "/people/carousel-matching.webp", position: "50% 35%" },
-  { tag: "Receipts", title: "Instant receipts", href: "/how-it-works#receipts", scene: "receipt", tone: "dusk", photo: "/people/carousel-receipts.webp", position: "60% 35%" },
-  { tag: "Utilities", title: "Water and power billing", href: "/how-it-works#utilities", scene: "meter", tone: "blush", photo: "/people/carousel-utilities.webp", position: "40% 45%" },
-  { tag: "Deposits", title: "Deposits without disputes", href: "/how-it-works#deposits", scene: "deposit", tone: "plum", photo: "/people/carousel-deposits.webp", position: "45% 30%" },
-  { tag: "Tax", title: "Tax figure ready before the 20th", href: "/how-it-works#tax", scene: "tax", tone: "pink", photo: "/people/carousel-tax.webp", position: "45% 35%" },
+  { tag: "Reminders", title: "Never chase rent", href: "/how-it-works#reminders", scene: "reminder", tone: "plum", photo: "/people/property-kasarani.webp", position: "50% 55%", place: "Kasarani · Apartment block" },
+  { tag: "Matching", title: "Smart matching", href: "/how-it-works#matching", scene: "match", tone: "pink", photo: "/people/property-ruaka.webp", position: "50% 45%", place: "Ruaka · Residential towers" },
+  { tag: "Receipts", title: "Instant receipts", href: "/how-it-works#receipts", scene: "receipt", tone: "dusk", photo: "/people/property-rongai.webp", position: "50% 55%", place: "Rongai · Bedsitters" },
+  { tag: "Utilities", title: "Water and power billing", href: "/how-it-works#utilities", scene: "meter", tone: "blush", photo: "/people/property-kilimani.webp", position: "50% 50%", place: "Kilimani · Metered apartments" },
+  { tag: "Deposits", title: "Deposits without disputes", href: "/how-it-works#deposits", scene: "deposit", tone: "plum", photo: "/people/property-southb.webp", position: "50% 55%", place: "South B · Maisonettes" },
+  { tag: "Tax", title: "Tax figure ready before the 20th", href: "/how-it-works#tax", scene: "tax", tone: "pink", photo: "/people/property-westlands.webp", position: "50% 50%", place: "Westlands · Shops and flats" },
 ];
 
 const tiles: Tile[] = [
