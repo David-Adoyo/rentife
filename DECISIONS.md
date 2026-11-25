@@ -20,3 +20,11 @@ individuals; wardrobe and setting match each section (landlords, agents, caretak
 owners). Web copies are WebP in `public/people/`; full-size PNG masters stay in Figma and out of git.
 Product scenes (receipts, ring, feed) remain HTML illustrations with fictional demo data until real
 app screenshots exist. Swap in licensed or commissioned photography ({{PHOTO_SOURCE}}) if preferred.
+
+## D-005 · Booking leads live in a `rentife` schema inside the MedTRANS Supabase project
+The Supabase organisation is on the free plan, whose two active projects are both in use. With the
+owner's agreement, Rentife leads are stored in `rentife.leads` inside the MedTRANS project, walled off:
+row-level security is on, `anon`/`authenticated` have no grants, and the website connects as
+`rentife_writer`, a login that can only INSERT into that one table (no reads, no other schemas).
+Schema in `db/001_leads.sql`. The connection string is a sensitive Vercel env var (`DATABASE_URL`).
+Move to a dedicated Rentife project when one is available.

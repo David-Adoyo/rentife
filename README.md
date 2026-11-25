@@ -27,12 +27,15 @@ The source logos live in `brand-source/`. `npm run icons` (Python 3 + Pillow) re
 | `public/icon-maskable-512.png` | 512 (80% safe zone) | Android adaptive icon |
 | `public/brand/*` | — | Logo mark and wordmark, colour and white |
 
+## Booking leads
+
+`/book-setup` saves leads to `rentife.leads` in Supabase (`db/001_leads.sql`). Set `DATABASE_URL` (see `.env.example`); without it, local development prints leads to the console instead. View leads in the Supabase dashboard: Table Editor → schema `rentife` → `leads`.
+
 ## Placeholders
 
 Values not confirmed yet (prices, contacts, ODPC number, legal text, demo video) are shown as `{{TOKENS}}` and live in `src/content/site.ts`. Testimonials are hidden until real ones exist.
 
 ## Not done yet
 
-- `/api/book-setup` validates leads but only writes them to the server log. It needs the database (masterplan Stage 3) before launch.
 - People photos are AI-generated (Figma) fictional people; product scenes are illustrations with demo data. Swap in real screenshots when the app exists.
 - Kiswahili, `/rental-income-tax`, `/resources`, `/help`, `/about`, `/login` and `/signup` are not built.

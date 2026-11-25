@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.0 · 25 Nov 2026
+- Booking leads are saved to Supabase through an insert-only database login; spam honeypot added.
+
 ## 0.2.0 · 25 Nov 2026
 - People photography across the home page and page heroes, generated in Figma and graded to the brand palette.
 - Mobile hero keeps the landlady visible beside the phone; captions mask the decorative arcs.

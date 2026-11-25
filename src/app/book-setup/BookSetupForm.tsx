@@ -48,7 +48,12 @@ export function BookSetupForm() {
     errors[k] ? <p id={`${k}-error`} className="mt-1.5 text-sm text-overdue">{errors[k]}</p> : null;
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-5 rounded-[2.5rem] bg-white p-6 shadow-soft sm:p-10">
+    <form onSubmit={onSubmit} noValidate className="relative space-y-5 rounded-[2.5rem] bg-white p-6 shadow-soft sm:p-10">
+      {/* Honeypot for bots: hidden from people and screen readers. */}
+      <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="company">Company</label>
+        <input id="company" name="company" tabIndex={-1} autoComplete="off" />
+      </div>
       <div>
         <label htmlFor="name" className="font-medium">Your name</label>
         <input id="name" name="name" autoComplete="name" required className={field} aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
