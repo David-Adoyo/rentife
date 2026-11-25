@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, DeviceMobile, HandCoins, MapPin, ShieldCheck } from "@phosphor-icons/react/dist/ssr";
 import { Eyebrow, Money, SplitHeading, TextLink } from "@/components/primitives";
@@ -7,21 +8,21 @@ import { Faq, FinalCta, OvalTiles, StadiumCard, type Tile } from "@/components/S
 import { CollectionRing, Scene } from "@/components/Vignettes";
 
 const stories: Story[] = [
-  { tag: "Reminders", title: "Never chase rent", href: "/how-it-works#reminders", scene: "reminder", tone: "plum" },
-  { tag: "Matching", title: "Smart matching", href: "/how-it-works#matching", scene: "match", tone: "pink" },
-  { tag: "Receipts", title: "Instant receipts", href: "/how-it-works#receipts", scene: "receipt", tone: "dusk" },
-  { tag: "Utilities", title: "Water and power billing", href: "/how-it-works#utilities", scene: "meter", tone: "blush" },
-  { tag: "Deposits", title: "Deposits without disputes", href: "/how-it-works#deposits", scene: "deposit", tone: "plum" },
-  { tag: "Tax", title: "Tax figure ready before the 20th", href: "/how-it-works#tax", scene: "tax", tone: "pink" },
+  { tag: "Reminders", title: "Never chase rent", href: "/how-it-works#reminders", scene: "reminder", tone: "plum", photo: "/people/carousel-reminders.webp", position: "40% 40%" },
+  { tag: "Matching", title: "Smart matching", href: "/how-it-works#matching", scene: "match", tone: "pink", photo: "/people/carousel-matching.webp", position: "50% 35%" },
+  { tag: "Receipts", title: "Instant receipts", href: "/how-it-works#receipts", scene: "receipt", tone: "dusk", photo: "/people/carousel-receipts.webp", position: "60% 35%" },
+  { tag: "Utilities", title: "Water and power billing", href: "/how-it-works#utilities", scene: "meter", tone: "blush", photo: "/people/carousel-utilities.webp", position: "40% 45%" },
+  { tag: "Deposits", title: "Deposits without disputes", href: "/how-it-works#deposits", scene: "deposit", tone: "plum", photo: "/people/carousel-deposits.webp", position: "45% 30%" },
+  { tag: "Tax", title: "Tax figure ready before the 20th", href: "/how-it-works#tax", scene: "tax", tone: "pink", photo: "/people/carousel-tax.webp", position: "45% 35%" },
 ];
 
 const tiles: Tile[] = [
-  { eyebrow: "Landlords", title: "Stop chasing rent", href: "/how-it-works", scene: "ring", tone: "pink", text: "Reminders go out on schedule and stop the moment a tenant pays." },
-  { eyebrow: "Agents", title: "Owner statements and commission", href: "/for-agents", scene: "statement", tone: "plum", text: "Commission, expenses and net remittance per owner, every month." },
-  { eyebrow: "Diaspora owners", title: "See every shilling from anywhere", href: "/for-diaspora-owners", scene: "feed", tone: "dusk", text: "Payment data straight from M-Pesa confirmations, not typed by an agent." },
-  { eyebrow: "Caretakers", title: "Meter rounds and repairs, no cash", href: "/how-it-works#people", scene: "tasks", tone: "blush", text: "Caretakers never handle rent. Every action is logged." },
-  { eyebrow: "Buildings", title: "Look down at your whole building", href: "/how-it-works", scene: "grid", tone: "plum", text: "Every unit as a tile: paid, part paid, overdue or vacant." },
-  { eyebrow: "Security", title: "Your money never touches us", href: "/security", scene: "flow", tone: "pink", text: "Rent goes into your own Paybill, Till or bank. Rentife only reads confirmations." },
+  { eyebrow: "Landlords", title: "Stop chasing rent", href: "/how-it-works", scene: "ring", tone: "pink", photo: "/people/tile-landlord.webp", position: "50% 30%", text: "Reminders go out on schedule and stop the moment a tenant pays." },
+  { eyebrow: "Agents", title: "Owner statements and commission", href: "/for-agents", scene: "statement", tone: "plum", photo: "/people/tile-agent.webp", position: "50% 25%", text: "Commission, expenses and net remittance per owner, every month." },
+  { eyebrow: "Diaspora owners", title: "See every shilling from anywhere", href: "/for-diaspora-owners", scene: "feed", tone: "dusk", photo: "/people/tile-diaspora.webp", position: "45% 30%", text: "Payment data straight from M-Pesa confirmations, not typed by an agent." },
+  { eyebrow: "Caretakers", title: "Meter rounds and repairs, no cash", href: "/how-it-works#people", scene: "tasks", tone: "blush", photo: "/people/tile-caretaker.webp", position: "50% 30%", text: "Caretakers never handle rent. Every action is logged." },
+  { eyebrow: "Buildings", title: "Look down at your whole building", href: "/how-it-works", scene: "grid", tone: "plum", photo: "/people/tile-buildings.webp", position: "40% 50%", text: "Every unit as a tile: paid, part paid, overdue or vacant." },
+  { eyebrow: "Security", title: "Your money never touches us", href: "/security", scene: "flow", tone: "pink", photo: "/people/tile-security.webp", position: "50% 30%", text: "Rent goes into your own Paybill, Till or bank. Rentife only reads confirmations." },
 ];
 
 const trust = [
@@ -47,12 +48,17 @@ export default function Home() {
     <>
       {/* 1 — Hero panel (rounded media block under the floating nav) */}
       <div className="px-2 pt-2 sm:px-4 sm:pt-4">
-        <div className="relative isolate overflow-hidden rounded-b-[3rem] rounded-t-[2rem] bg-[radial-gradient(120%_100%_at_15%_0%,#7a2a70_0%,#4a2052_40%,#2a0f2e_100%)] pt-28 sm:rounded-b-[7rem] sm:pt-32">
-          <svg aria-hidden className="absolute inset-0 -z-10 h-full w-full" viewBox="0 0 1400 700" preserveAspectRatio="xMidYMid slice">
-            <path d="M200 520 L700 140 L1200 520" fill="none" stroke="#e94098" strokeOpacity=".35" strokeWidth="2" />
-            <circle cx="1180" cy="120" r="260" fill="none" stroke="#fff" strokeOpacity=".08" />
-            <circle cx="140" cy="640" r="300" fill="none" stroke="#fff" strokeOpacity=".06" />
-          </svg>
+        <div className="relative isolate overflow-hidden rounded-b-[3rem] rounded-t-[2rem] bg-plum-900 pt-28 sm:rounded-b-[7rem] sm:pt-32">
+          <Image
+            src="/people/hero.webp"
+            alt="A Kenyan landlady walking through the courtyard of her apartment block at dusk, checking her phone"
+            fill
+            priority
+            sizes="100vw"
+            className="-z-20 object-cover object-[22%_center] sm:object-[30%_center]"
+          />
+          {/* Fade the sky side into plum so the product cards sit on a calm field. */}
+          <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(42,15,46,0)_20%,rgba(42,15,46,.35)_60%,rgba(42,15,46,.7)_100%),linear-gradient(180deg,rgba(42,15,46,.25)_0%,rgba(42,15,46,0)_30%,rgba(42,15,46,.45)_100%)]" />
           <HeroVisual />
         </div>
       </div>
@@ -144,6 +150,8 @@ export default function Home() {
                 cta="How money flows"
                 scene="flow"
                 tone="dusk"
+                photo="/people/card-money.webp"
+                position="40% 40%"
               />
               <StadiumCard
                 flip
@@ -153,6 +161,8 @@ export default function Home() {
                 cta="What tenants get"
                 scene="letter"
                 tone="blush"
+                photo="/people/card-tenant.webp"
+                position="35% 40%"
               />
             </div>
           </div>
@@ -256,12 +266,9 @@ export default function Home() {
 
 function HeroVisual() {
   return (
-    <div className="container-x relative flex min-h-[440px] items-end justify-center gap-6 pb-16 sm:min-h-[520px] sm:pb-24">
-      <span className="absolute left-6 top-0 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white/90 sm:left-12">
-        Illustration · demo data
-      </span>
+    <div className="container-x relative flex min-h-[460px] items-end justify-end gap-5 pb-10 sm:min-h-[560px] sm:justify-center sm:pb-20 lg:justify-end">
       {/* Laptop-style dashboard card */}
-      <div className="hidden w-[560px] rounded-[1.75rem] bg-white p-6 shadow-float md:block">
+      <div className="hidden w-[480px] rounded-[1.75rem] bg-white/95 p-6 shadow-float backdrop-blur md:block">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-ink-600">Mwangaza Homes · December</p>
@@ -280,7 +287,7 @@ function HeroVisual() {
         </div>
       </div>
       {/* Phone with an M-Pesa style confirmation and a Rentife receipt */}
-      <div className="w-[260px] shrink-0 rounded-[2.5rem] border-[6px] border-plum-950 bg-cream-100 p-3 shadow-float sm:w-[280px]">
+      <div className="w-[260px] shrink-0 origin-bottom-right rounded-[2.5rem] border-[6px] border-plum-950 bg-cream-100 p-3 shadow-float max-sm:-mr-2 max-sm:scale-[0.72] sm:w-[280px]">
         <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-plum-950/80" />
         <div className="rounded-2xl rounded-bl-md bg-white p-3 text-[12.5px] leading-snug text-ink-900 shadow-soft">
           <b>Confirmed.</b> <Money cents={1500000} /> sent to Sunrise Court for account SUN-B4 on 3/12/26 at 9:14 AM.

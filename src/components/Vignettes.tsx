@@ -3,6 +3,7 @@
  * ({{PHOTO_SOURCE}}) and real UI screenshots are available. All names and figures are
  * fictional demo values (masterplan §16: "Mwangaza Homes", "Sunrise Court").
  */
+import Image from "next/image";
 import type { ReactNode } from "react";
 import {
   ArrowRight,
@@ -45,17 +46,41 @@ const tones: Record<SceneTone, string> = {
   night: "bg-[radial-gradient(100%_80%_at_50%_0%,#4a2052_0%,#1e0a21_100%)]",
 };
 
+export type Photo = { src: string; alt?: string; position?: string; priority?: boolean };
+
 export function Scene({
   kind,
   tone = "plum",
   className = "",
   label = true,
+  photo,
+  sizes = "(min-width: 1024px) 50vw, 100vw",
 }: {
   kind: SceneKind;
   tone?: SceneTone;
   className?: string;
   label?: boolean;
+  photo?: Photo;
+  sizes?: string;
 }) {
+  if (photo) {
+    return (
+      <div className={`relative isolate overflow-hidden bg-plum-900 ${className}`}>
+        <Image
+          src={photo.src}
+          alt={photo.alt ?? ""}
+          fill
+          sizes={sizes}
+          priority={photo.priority}
+          className="-z-20 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          style={{ objectPosition: photo.position ?? "center" }}
+        />
+        {/* Brand grade: a soft plum fall-off so every photo sits in the same light. */}
+        <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(74,32,82,0)_50%,rgba(42,15,46,.38)_100%)]" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(120%_80%_at_100%_0%,rgba(233,64,152,.14),transparent_60%)] mix-blend-soft-light" />
+      </div>
+    );
+  }
   return (
     <div className={`relative isolate flex items-center justify-center overflow-hidden ${tones[tone]} ${className}`}>
       {/* soft orbit lines echo the logo's roofline */}

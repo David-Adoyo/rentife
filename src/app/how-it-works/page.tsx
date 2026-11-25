@@ -25,6 +25,8 @@ export default function HowItWorks() {
         title="Pay, match, receipt, record"
         scene="feed"
         tone="plum"
+        photo="/people/carousel-reminders.webp"
+        position="40% 8%"
         text="Tenants pay into your own Paybill or Till using their unit code. Rentife matches every payment to the right unit, sends an instant receipt and keeps a clean record you can trust."
       >
         <Link href="/book-setup" className="btn btn-primary">Book a free setup <ArrowRight size={16} weight="bold" /></Link>
@@ -97,6 +99,8 @@ export default function HowItWorks() {
                 cta="Set up your team"
                 scene="tasks"
                 tone="blush"
+                photo="/people/tile-caretaker.webp"
+                position="50% 30%"
               />
               <StadiumCard
                 flip
@@ -106,6 +110,8 @@ export default function HowItWorks() {
                 cta="Book a free setup"
                 scene="letter"
                 tone="dusk"
+                photo="/people/card-tenant.webp"
+                position="35% 40%"
               />
             </div>
           </div>

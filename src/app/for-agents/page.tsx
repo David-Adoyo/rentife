@@ -16,6 +16,8 @@ export default function ForAgents() {
         title="Many owners, one calm desk"
         scene="statement"
         tone="dusk"
+        photo="/people/tile-agent.webp"
+        position="50% 22%"
         text="Stop computing commission and remittances by hand. Rentife links every unit to its owner and does the maths every month."
       >
         <Link href="/book-setup" className="btn btn-primary">Book a free setup <ArrowRight size={16} weight="bold" /></Link>

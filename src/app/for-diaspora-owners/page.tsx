@@ -16,6 +16,8 @@ export default function ForDiaspora() {
         title="See every shilling from anywhere"
         scene="ring"
         tone="pink"
+        photo="/people/tile-diaspora.webp"
+        position="50% 28%"
         text="No more relying on relatives or waiting for your agent to reply. Check your buildings whenever you like, from wherever you live."
       >
         <Link href="/book-setup" className="btn btn-primary">Book a free setup <ArrowRight size={16} weight="bold" /></Link>

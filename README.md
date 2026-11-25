@@ -34,5 +34,5 @@ Values not confirmed yet (prices, contacts, ODPC number, legal text, demo video)
 ## Not done yet
 
 - `/api/book-setup` validates leads but only writes them to the server log. It needs the database (masterplan Stage 3) before launch.
-- Product scenes are illustrations with demo data. Swap them for real screenshots and licensed photos.
+- People photos are AI-generated (Figma) fictional people; product scenes are illustrations with demo data. Swap in real screenshots when the app exists.
 - Kiswahili, `/rental-income-tax`, `/resources`, `/help`, `/about`, `/login` and `/signup` are not built.

@@ -13,6 +13,10 @@ stadium cards, large media panel, dark four-column footer). No Mastercard copy, 
 ## D-003 · One typeface: DM Sans
 Matches the geometric logo wordmark and the all-sans look of the reference layout. Playfair Display (§8.3) is not used.
 
-## D-004 · Illustrated product scenes instead of photos
-No licensed photography ({{PHOTO_SOURCE}}) and no app screenshots exist yet. Scenes are built in HTML with
-fictional demo data and labelled "Illustration".
+## D-004 · AI-generated people, illustrated product scenes
+People photos (hero, carousel, oval tiles, stadium cards, page heroes) were generated in Figma AI
+(file "Rentife — Website People") at the owner's request. They show fictional Kenyan people, not real
+individuals; wardrobe and setting match each section (landlords, agents, caretakers, tenants, diaspora
+owners). Web copies are WebP in `public/people/`; full-size PNG masters stay in Figma and out of git.
+Product scenes (receipts, ring, feed) remain HTML illustrations with fictional demo data until real
+app screenshots exist. Swap in licensed or commissioned photography ({{PHOTO_SOURCE}}) if preferred.

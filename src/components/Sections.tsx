@@ -4,7 +4,7 @@ import { ArrowRight, Plus } from "@phosphor-icons/react/dist/ssr";
 import { ArrowDisc, Eyebrow } from "./primitives";
 import { Scene, type SceneKind, type SceneTone } from "./Vignettes";
 
-export type Tile = { eyebrow: string; title: string; href: string; scene: SceneKind; tone: SceneTone; text?: string };
+export type Tile = { eyebrow: string; title: string; href: string; scene: SceneKind; tone: SceneTone; text?: string; photo?: string; position?: string };
 
 /** Zig-zag of oval and round tiles joined by fine pink arcs. */
 export function OvalTiles({ tiles }: { tiles: Tile[] }) {
@@ -17,10 +17,10 @@ export function OvalTiles({ tiles }: { tiles: Tile[] }) {
       return (
         <Link key={t.title} href={t.href} className={`group block ${n % 2 ? "" : "ml-auto"} w-[88%] sm:w-[76%] md:w-[82%] ${n % 2 ? "md:ml-[6%]" : ""}`}>
           <div className="relative">
-            <Scene kind={t.scene} tone={t.tone} className={`${shape(n)} rounded-full`} />
+            <Scene kind={t.scene} tone={t.tone} className={`${shape(n)} rounded-full`} photo={t.photo ? { src: t.photo, position: t.position } : undefined} sizes="(min-width: 768px) 40vw, 88vw" />
             <ArrowDisc className="absolute bottom-[8%] right-[6%]" />
           </div>
-          <div className="mt-6 px-[6%]">
+          <div className="relative mx-[6%] mt-4 w-fit max-w-full rounded-2xl bg-cream-100 py-2">
             <Eyebrow>{t.eyebrow}</Eyebrow>
             <h3 className="display-3 mt-2 group-hover:text-pink-700">{t.title}</h3>
             {t.text && <p className="mt-2 max-w-sm text-ink-600">{t.text}</p>}
@@ -53,6 +53,8 @@ export function StadiumCard({
   tone,
   flip = false,
   id,
+  photo,
+  position,
 }: {
   title: string;
   text: ReactNode;
@@ -62,11 +64,13 @@ export function StadiumCard({
   tone: SceneTone;
   flip?: boolean;
   id?: string;
+  photo?: string;
+  position?: string;
 }) {
   return (
     <div id={id} className="scroll-mt-32 rounded-[3rem] border border-pink-500/60 p-3 sm:rounded-[999px] sm:p-5">
       <div className={`flex flex-col items-center gap-6 sm:gap-10 md:flex-row ${flip ? "md:flex-row-reverse" : ""}`}>
-        <Scene kind={scene} tone={tone} className="aspect-[16/10] w-full rounded-[2.5rem] sm:rounded-[999px] md:w-1/2" />
+        <Scene kind={scene} tone={tone} className="aspect-[16/10] w-full rounded-[2.5rem] sm:rounded-[999px] md:w-1/2" photo={photo ? { src: photo, position } : undefined} />
         <div className="w-full px-4 pb-6 md:w-1/2 md:px-8 md:pb-0">
           <h3 className="display-3">{title}</h3>
           <div className="mt-3 max-w-md text-ink-600">{text}</div>
@@ -129,6 +133,8 @@ export function PageHero({
   scene,
   tone = "plum",
   children,
+  photo,
+  position,
 }: {
   eyebrow: string;
   title: string;
@@ -136,11 +142,13 @@ export function PageHero({
   scene: SceneKind;
   tone?: SceneTone;
   children?: ReactNode;
+  photo?: string;
+  position?: string;
 }) {
   return (
     <>
       <div className="px-2 pt-2 sm:px-4 sm:pt-4">
-        <Scene kind={scene} tone={tone} className="h-[64vh] max-h-[560px] min-h-[420px] rounded-b-[3rem] rounded-t-[2rem] pt-20 sm:rounded-b-[6rem]" />
+        <Scene kind={scene} tone={tone} className="h-[64vh] max-h-[560px] min-h-[420px] rounded-b-[3rem] rounded-t-[2rem] pt-20 sm:rounded-b-[6rem]" photo={photo ? { src: photo, position, priority: true } : undefined} sizes="100vw" />
       </div>
       <section className="container-x pb-8 pt-14 sm:pt-20">
         <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-16">

@@ -25,6 +25,8 @@ export default function Security() {
         title="Your money never touches us"
         scene="flow"
         tone="plum"
+        photo="/people/card-money.webp"
+        position="40% 35%"
         text="Rent goes straight into your own Paybill, Till or bank account. Rentife only reads the payment confirmations, so there is nothing for us to hold, lose or delay."
       />
 
