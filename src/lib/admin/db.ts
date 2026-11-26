@@ -1,13 +1,17 @@
 import "server-only";
 import postgres from "postgres";
 
-/** Connection for the `rentife_admin_app` role (see db/002_admin.sql). */
+/**
+ * Connection for the `rentife_admin_app` role (see db/002_admin.sql).
+ * Uses the Supabase pooler in session mode (port 5432): transaction mode (6543) stalls when
+ * postgres.js pipelines several queries on one connection.
+ */
 let sql: postgres.Sql | null = null;
 
 export function adminDb(): postgres.Sql {
   const url = process.env.DATABASE_ADMIN_URL;
   if (!url) throw new Error("DATABASE_ADMIN_URL is not set");
-  sql ??= postgres(url, { ssl: "require", prepare: false, max: 1, idle_timeout: 20, connect_timeout: 10 });
+  sql ??= postgres(url, { ssl: "require", prepare: false, max: 1, idle_timeout: 10, max_lifetime: 60 * 5, connect_timeout: 10 });
   return sql;
 }
 

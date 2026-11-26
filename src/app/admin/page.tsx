@@ -24,16 +24,15 @@ export default async function AdminLeads({ searchParams }: { searchParams: Promi
   const query = q.trim().slice(0, 100);
   const sql = adminDb();
 
-  const [counts, leads] = await Promise.all([
-    sql<{ status: string; n: number }[]>`select status, count(*)::int as n from rentife.leads group by status`,
-    sql<Lead[]>`
+  // Sequential on purpose: one pooled connection, one query at a time.
+  const counts = await sql<{ status: string; n: number }[]>`select status, count(*)::int as n from rentife.leads group by status`;
+  const leads = await sql<Lead[]>`
       select id, name, phone, units, area, best_time, status, notes, created_at
       from rentife.leads
       where (${filter} = '' or status = ${filter})
         and (${query} = '' or name ilike ${"%" + query + "%"} or phone ilike ${"%" + query + "%"} or area ilike ${"%" + query + "%"})
       order by created_at desc
-      limit 500`,
-  ]);
+      limit 500`;
   const count = (id: string) => counts.find((c) => c.status === id)?.n ?? 0;
   const total = counts.reduce((a, c) => a + c.n, 0);
   const href = (s: string) => `/admin?${new URLSearchParams({ ...(s && { status: s }), ...(query && { q: query }) })}`;
