@@ -34,3 +34,11 @@ At the owner's request, the `{{PLAN_*}}`/`{{PRICE_PER_UNIT}}` placeholders were 
 Starter KSh 80/unit (1–30 units, min 800), Growth KSh 60/unit (31–100, min 2,400), Agency KSh 40/unit
 (101+ or any agent, min 6,000), per occupied unit per month, excl. VAT. Logic lives in `src/content/pricing.ts`;
 research and reasoning in `docs/pricing-research.md`.
+
+## D-007 · Staff admin for leads at /admin
+A small staff area ahead of the masterplan's Stage 11 admin console. Email + password (scrypt) and a
+mandatory authenticator code (TOTP, secret encrypted with AES-256-GCM). Accounts are created only by
+one-time invite links (24 h, stored as SHA-256). Five failed attempts lock the account for 15 minutes.
+Sessions are signed, HttpOnly, SameSite=Strict cookies scoped to /admin (12 h) and can be revoked
+everywhere by bumping `session_version`. The app connects as `rentife_admin_app`, which can read leads,
+update only `status` and `notes`, and append to `rentife.audit_log`. Schema in `db/002_admin.sql`.

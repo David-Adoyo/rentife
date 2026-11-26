@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.0 · 26 Nov 2026
+- Staff admin at /admin: invite-only accounts, password plus authenticator sign-in, leads dashboard with status, notes, search, call and WhatsApp buttons, CSV export and an audit log.
+
 ## 0.5.0 · 26 Nov 2026
 - Header links open their own pages (no drop-down menus); new For landlords page.
 - Home page trimmed to hero, carousel, audiences, how it works, pricing at a glance and the final call to action. Before/after, demo panel, calculator and FAQ moved to For landlords.

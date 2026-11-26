@@ -31,6 +31,10 @@ The source logos live in `brand-source/`. `npm run icons` (Python 3 + Pillow) re
 
 `/book-setup` saves leads to `rentife.leads` in Supabase (`db/001_leads.sql`). Set `DATABASE_URL` (see `.env.example`); without it, local development prints leads to the console instead. View leads in the Supabase dashboard: Table Editor → schema `rentife` → `leads`.
 
+## Admin
+
+Staff sign in at `/admin` (email, password and an authenticator code) to work the leads: filter by status, search, call or WhatsApp, update status and notes, export CSV. Accounts are created by one-time invite links (see `docs/admin.md`). Requires `DATABASE_ADMIN_URL` and `SESSION_SECRET`.
+
 ## Placeholders
 
 Values not confirmed yet (prices, contacts, ODPC number, legal text, demo video) are shown as `{{TOKENS}}` and live in `src/content/site.ts`. Testimonials are hidden until real ones exist.

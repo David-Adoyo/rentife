@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/dm-sans";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
@@ -42,9 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-GB">
       <body>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </body>
     </html>
