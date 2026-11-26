@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, DeviceMobile, HandCoins, MapPin, ShieldCheck } from "@phosphor-icons/react/dist/ssr";
-import { Eyebrow, Money, SplitHeading, TextLink } from "@/components/primitives";
+import { plans } from "@/content/pricing";
+import { Eyebrow, Money, SplitHeading } from "@/components/primitives";
 import { StoryCarousel, type Story } from "@/components/StoryCarousel";
-import { CostCalculator } from "@/components/CostCalculator";
-import { Faq, FinalCta, OvalTiles, StadiumCard, type Tile } from "@/components/Sections";
-import { CollectionRing, Scene } from "@/components/Vignettes";
+import { FinalCta, OvalTiles, StadiumCard, type Tile } from "@/components/Sections";
+import { CollectionRing } from "@/components/Vignettes";
 
 const stories: Story[] = [
   { tag: "Reminders", title: "Never chase rent", href: "/how-it-works#reminders", scene: "reminder", tone: "plum", photo: "/people/property-kasarani.webp", position: "50% 55%", place: "Kasarani · Apartment block" },
@@ -17,11 +17,9 @@ const stories: Story[] = [
 ];
 
 const tiles: Tile[] = [
-  { eyebrow: "Landlords", title: "Stop chasing rent", href: "/how-it-works", scene: "ring", tone: "pink", photo: "/people/tile-landlord.webp", position: "50% 30%", text: "Reminders go out on schedule and stop the moment a tenant pays." },
+  { eyebrow: "Landlords", title: "Stop chasing rent", href: "/for-landlords", scene: "ring", tone: "pink", photo: "/people/tile-landlord.webp", position: "50% 30%", text: "Reminders go out on schedule and stop the moment a tenant pays." },
   { eyebrow: "Agents", title: "Owner statements and commission", href: "/for-agents", scene: "statement", tone: "plum", photo: "/people/tile-agent.webp", position: "50% 25%", text: "Commission, expenses and net remittance per owner, every month." },
   { eyebrow: "Diaspora owners", title: "See every shilling from anywhere", href: "/for-diaspora-owners", scene: "feed", tone: "dusk", photo: "/people/tile-diaspora.webp", position: "45% 30%", text: "Payment data straight from M-Pesa confirmations, not typed by an agent." },
-  { eyebrow: "Caretakers", title: "Meter rounds and repairs, no cash", href: "/how-it-works#people", scene: "tasks", tone: "blush", photo: "/people/tile-caretaker.webp", position: "50% 30%", text: "Caretakers never handle rent. Every action is logged." },
-  { eyebrow: "Buildings", title: "Look down at your whole building", href: "/how-it-works", scene: "grid", tone: "plum", photo: "/people/tile-buildings.webp", position: "40% 50%", text: "Every unit as a tile: paid, part paid, overdue or vacant." },
   { eyebrow: "Security", title: "Your money never touches us", href: "/security", scene: "flow", tone: "pink", photo: "/people/tile-security.webp", position: "50% 30%", text: "Rent goes into your own Paybill, Till or bank. Rentife only reads confirmations." },
 ];
 
@@ -32,16 +30,6 @@ const trust = [
   { icon: DeviceMobile, t: "No app for tenants" },
 ];
 
-const faqs = [
-  { q: "Do I need a Paybill?", a: "Rentife works with your own M-Pesa Paybill, Till or bank account. Rent goes straight to you. If you don’t have API access, you can import your M-Pesa or bank statement instead, and we’ll guide you through getting a Paybill." },
-  { q: "What if a tenant pays without the unit code?", a: "Rentife tries the phone numbers it has learned, then the payer’s name and the amount. Anything it isn’t sure about goes to a one-tap review queue, and it remembers your choice for next time." },
-  { q: "Can my caretaker see the money?", a: "Caretakers see whether a unit has paid, with amounts hidden by default. They can log meter readings, repairs and inspections, but they can never record payments." },
-  { q: "Is my data safe?", a: "Every organisation’s data is isolated at the database level, payment credentials are encrypted, and every action is written to an audit trail that cannot be edited." },
-  { q: "Do tenants need to download an app?", a: "No. Tenants pay with M-Pesa as they do today, get receipts by SMS or WhatsApp, and can open a lightweight web portal with a one-time code. No password, no app." },
-  { q: "What about tax?", a: "The tax centre shows the gross residential rent you received each month and the figure due, with reminders before the due date and an export pack. It is information, not tax advice." },
-  { q: "Can I import my Excel?", a: "Yes. Upload your existing sheet of units and tenants, check the preview, and fix anything flagged before it goes live." },
-  { q: "What happens if I stop paying for Rentife?", a: "Rent keeps flowing into your own account, because it never passed through us. Your records stay available to view and export." },
-];
 
 export default function Home() {
   return (
@@ -100,7 +88,7 @@ export default function Home() {
       </div>
 
       {/* 4 — Who it's for: zig-zag oval tiles */}
-      <section id="features" className="container-x scroll-mt-28 pt-24 sm:pt-36">
+      <section className="container-x pt-24 sm:pt-36">
         <Eyebrow>Built for everyone in the building</Eyebrow>
         <h2 className="mt-4 max-w-4xl text-[clamp(2.75rem,7vw,6rem)] font-medium leading-[0.98] tracking-[-0.035em] text-balance">
           Every shilling matched, receipted and recorded
@@ -111,24 +99,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5 — Raised container: before/after, how it works, stadium cards */}
+      {/* 5 — Raised container: the promise in three steps, plus the trust card */}
       <section className="px-2 pt-24 sm:px-4 sm:pt-36">
         <div className="rounded-[3rem] bg-cream-50 py-16 sm:rounded-[4rem] sm:py-24">
           <div className="container-x">
-            <Eyebrow>The 1st of the month, before and after</Eyebrow>
+            <Eyebrow>How it works</Eyebrow>
             <h2 className="mt-4 max-w-3xl text-[clamp(2.75rem,7vw,6rem)] font-medium leading-[0.98] tracking-[-0.035em] text-balance">
               You never chase rent again
             </h2>
-            <p className="mt-6 max-w-xl text-lg text-ink-600">
-              No more first week of calls, WhatsApps and notebooks. Rentife reminds, matches, receipts and records, so the 1st of the month is just another day.
-            </p>
-            <Link href="/how-it-works" className="btn btn-primary mt-8">
-              See how it works
-            </Link>
-
-            <BeforeAfter />
-
-            <ol className="mt-20 grid gap-4 md:grid-cols-3">
+            <ol className="mt-14 grid gap-4 md:grid-cols-3">
               {[
                 ["Tenant pays with their unit code", "Into your own Paybill or Till, from any phone."],
                 ["Rentife matches and receipts", "The payment lands on the right unit and the tenant gets a numbered receipt."],
@@ -141,122 +120,48 @@ export default function Home() {
                 </li>
               ))}
             </ol>
-
-            <div className="mt-16 space-y-6">
+            <div className="mt-6">
               <StadiumCard
-                title="Your money never touches us"
-                text="Rent goes straight into your own Paybill, Till or bank. Rentife only reads the confirmations, so every shilling is yours from the first second."
-                href="/security"
-                cta="How money flows"
+                title="Rent goes straight to you"
+                text="Tenants pay into your own Paybill, Till or bank. Rentife only reads the confirmations, so every shilling is yours from the first second."
+                href="/how-it-works"
+                cta="See how it works"
                 scene="flow"
                 tone="dusk"
                 photo="/people/card-money.webp"
                 position="40% 40%"
               />
-              <StadiumCard
-                flip
-                title="Tenants love it too"
-                text="An instant receipt for every payment, a rent history letter for loans and visas, and repairs they can report and track. No app to download."
-                href="/how-it-works#people"
-                cta="What tenants get"
-                scene="letter"
-                tone="blush"
-                photo="/people/card-tenant.webp"
-                position="35% 40%"
-              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6 — Cost of chasing calculator */}
+      {/* 6 — Pricing at a glance */}
       <section className="container-x pt-24 sm:pt-36">
-        <SplitHeading eyebrow="The cost of chasing" title="What late rent is costing you">
-          Move the sliders to match your buildings. Everything is worked out from your own numbers.
-        </SplitHeading>
-        <div className="mt-12">
-          <CostCalculator />
-        </div>
-      </section>
-
-      {/* 7 — Big media panel: see it in action */}
-      <section className="container-x pt-24 sm:pt-36">
-        <SplitHeading eyebrow="See it in action" title="Watch a month collect itself">
-          From the first reminder to the last receipt, one screen tells you where every unit stands.
+        <SplitHeading eyebrow="Pricing" title="Pay only for occupied units">
+          Free until your first payment is matched automatically. Vacant units cost nothing.
           <div className="mt-6">
-            <Link href="/book-setup" className="btn btn-outline">
-              Book a free setup <ArrowRight size={16} />
+            <Link href="/pricing" className="btn btn-outline">
+              See pricing <ArrowRight size={16} />
             </Link>
           </div>
         </SplitHeading>
-        <AllPaidPanel />
-      </section>
-
-      {/* 8 — For agents and diaspora owners */}
-      <section className="container-x pt-24 sm:pt-36">
-        <div className="grid gap-6 md:grid-cols-2">
-          <Link href="/for-agents" className="group relative overflow-hidden rounded-[2.5rem] bg-plum-800 p-8 text-white sm:p-12">
-            <Eyebrow tone="light">For agents and property managers</Eyebrow>
-            <p className="display-3 mt-4 max-w-sm">Many owners, one calm desk</p>
-            <p className="mt-3 max-w-sm text-white/80">Owner portfolios, automatic commission, polished statements and an audit trail.</p>
-            <span className="mt-8 inline-flex items-center gap-2 font-semibold">Rentife for agents <ArrowRight className="transition-transform group-hover:translate-x-1" /></span>
-          </Link>
-          <Link href="/for-diaspora-owners" className="group relative overflow-hidden rounded-[2.5rem] bg-pink-100 p-8 sm:p-12">
-            <Eyebrow>For diaspora owners</Eyebrow>
-            <p className="display-3 mt-4 max-w-sm">See every shilling from anywhere</p>
-            <p className="mt-3 max-w-sm text-ink-600">A real-time owner dashboard and a monthly statement, wherever you live.</p>
-            <span className="mt-8 inline-flex items-center gap-2 font-semibold text-pink-700">Rentife for diaspora owners <ArrowRight className="transition-transform group-hover:translate-x-1" /></span>
-          </Link>
+        <div className="mt-12 grid gap-4 sm:grid-cols-3">
+          {plans.map((p) => (
+            <Link key={p.id} href="/pricing" className={`group rounded-[2rem] p-7 transition-colors ${p.id === "growth" ? "bg-plum-800 text-white" : "bg-white shadow-soft hover:bg-cream-50"}`}>
+              <p className={`text-sm font-bold uppercase tracking-[0.12em] ${p.id === "growth" ? "text-pink-500" : "text-pink-700"}`}>{p.name}</p>
+              <p className="num mt-3 flex items-baseline gap-1.5">
+                <span className={`text-base ${p.id === "growth" ? "text-white/70" : "text-ink-600"}`}>KSh</span>
+                <span className="text-5xl font-medium tracking-tight">{p.perUnit}</span>
+                <span className={`text-sm ${p.id === "growth" ? "text-white/70" : "text-ink-600"}`}>/ unit / month</span>
+              </p>
+              <p className={`mt-3 ${p.id === "growth" ? "text-white/85" : "text-ink-600"}`}>{p.for}</p>
+            </Link>
+          ))}
         </div>
       </section>
 
-      {/* 9 — Security */}
-      <section className="container-x pt-24 sm:pt-36">
-        <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-          <Scene kind="audit" tone="plum" className="aspect-square rounded-full" />
-          <div>
-            <Eyebrow>Security and trust</Eyebrow>
-            <h2 className="display-2 mt-4 text-balance">Built like a bank statement, not a spreadsheet</h2>
-            <ul className="mt-8 space-y-4 text-lg">
-              {[
-                "Rent goes to your own account. Rentife never holds it.",
-                "Every organisation’s data is isolated at the database level.",
-                "Payment credentials are encrypted and never shown in the browser.",
-                "An audit trail records who did what, and it cannot be edited.",
-              ].map((p) => (
-                <li key={p} className="flex gap-3">
-                  <ShieldCheck size={24} weight="fill" className="mt-0.5 shrink-0 text-pink-700" aria-hidden />
-                  {p}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8">
-              <TextLink href="/security">Read about security</TextLink>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 10 — Testimonials: hidden until real ones exist ({{TESTIMONIALS}}). */}
-
-      {/* 11 — Pricing teaser + FAQ */}
-      <section id="faq" className="container-x scroll-mt-28 pt-24 sm:pt-36">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
-          <div>
-            <Eyebrow>Pricing and questions</Eyebrow>
-            <h2 className="display-2 mt-4">Questions landlords ask</h2>
-            <div className="mt-8 rounded-[2rem] bg-white p-7 shadow-soft">
-              <p className="text-sm font-semibold uppercase tracking-[0.12em] text-ink-600">Pricing</p>
-              <p className="num mt-2 text-2xl font-medium">From KSh 40 to KSh 80 per occupied unit, per month</p>
-              <p className="mt-2 text-ink-600">Free until your first payment is matched automatically.</p>
-              <div className="mt-5">
-                <TextLink href="/pricing">See pricing</TextLink>
-              </div>
-            </div>
-          </div>
-          <Faq items={faqs} />
-        </div>
-      </section>
+      {/* Testimonials: hidden until real ones exist ({{TESTIMONIALS}}). */}
 
       {/* 12 — Final CTA */}
       <FinalCta />
@@ -306,55 +211,6 @@ function HeroVisual() {
           </div>
         </div>
         <div className="mt-2 rounded-2xl bg-white p-3 text-[12px] text-ink-600 shadow-soft">Balance for December: <b className="text-paid">Fully paid</b></div>
-      </div>
-    </div>
-  );
-}
-
-function BeforeAfter() {
-  return (
-    <div className="mt-16 grid overflow-hidden rounded-[2.5rem] border border-line md:grid-cols-2">
-      <div className="bg-white p-8 sm:p-10">
-        <p className="text-sm font-semibold uppercase tracking-[0.12em] text-overdue">Before</p>
-        <ul className="mt-5 space-y-3 text-lg text-ink-600">
-          {["Calling and WhatsApping tenants all week", "Scrolling M-Pesa messages against a notebook", "“I paid from my wife’s phone”", "Writing receipts by hand", "Guessing your monthly tax figure"].map((t) => (
-            <li key={t} className="flex gap-3"><span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ink-400" />{t}</li>
-          ))}
-        </ul>
-      </div>
-      <div className="bg-plum-800 p-8 text-white sm:p-10">
-        <p className="text-sm font-semibold uppercase tracking-[0.12em] text-pink-500">After</p>
-        <ul className="mt-5 space-y-3 text-lg">
-          {["Polite reminders go out on schedule", "Every payment matched to the right unit", "Rentife learns that phone for next time", "Numbered receipts sent instantly", "Tax figure ready before the 20th"].map((t) => (
-            <li key={t} className="flex gap-3"><CheckCircle size={22} weight="fill" className="mt-0.5 shrink-0 text-pink-500" aria-hidden />{t}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-function AllPaidPanel() {
-  const units = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4"];
-  return (
-    <div className="mt-12 overflow-hidden rounded-[2.5rem] bg-[radial-gradient(100%_100%_at_0%_0%,#fce6f1_0%,#f1e6ef_50%,#dcc6d8_100%)] p-4 sm:p-10">
-      <div className="mx-auto max-w-4xl rounded-[1.75rem] bg-white p-6 shadow-float sm:p-8">
-        <div className="relative overflow-hidden rounded-2xl bg-plum-800 px-5 py-4 text-white">
-          <p className="font-medium">Every unit at Sunrise Court has paid for December</p>
-          <span aria-hidden className="absolute inset-x-0 bottom-0 h-1 bg-[linear-gradient(90deg,transparent,#e94098,transparent)] bg-[length:200%_100%] [animation:shimmer_2.4s_ease-out_1]" />
-        </div>
-        <div className="mt-6 grid items-center gap-8 sm:grid-cols-[auto_1fr]">
-          <CollectionRing pct={100} size={176} stroke={14} />
-          <div>
-            <p className="text-sm font-semibold text-ink-600">Sunrise Court, Kasarani · 12 units</p>
-            <div className="mt-3 grid grid-cols-6 gap-2">
-              {units.map((u) => (
-                <div key={u} className="flex aspect-square items-center justify-center rounded-lg bg-paid text-xs font-semibold text-white">{u}</div>
-              ))}
-            </div>
-            <p className="mt-4 text-sm text-ink-600">Illustration with demo data. A product demo video will appear here.</p>
-          </div>
-        </div>
       </div>
     </div>
   );

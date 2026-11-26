@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 · 26 Nov 2026
+- Header links open their own pages (no drop-down menus); new For landlords page.
+- Home page trimmed to hero, carousel, audiences, how it works, pricing at a glance and the final call to action. Before/after, demo panel, calculator and FAQ moved to For landlords.
+
 ## 0.4.0 · 26 Nov 2026
 - Real prices: Starter KSh 80, Growth KSh 60, Agency KSh 40 per occupied unit per month, set from competitor research. Calculator now shows the real monthly cost.
 
