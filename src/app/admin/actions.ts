@@ -18,15 +18,16 @@ function totpFor(admin: Pick<Admin, "email">, secretBase32: string) {
   return new OTPAuth.TOTP({ issuer: "Rentife", label: admin.email, secret: OTPAuth.Secret.fromBase32(secretBase32), digits: 6, period: 30 });
 }
 
+/** Count a failed attempt atomically, so parallel guesses can't slip past the limit. */
 async function recordFailure(admin: Admin) {
-  const sql = adminDb();
-  const attempts = admin.failed_attempts + 1;
-  const lock = attempts >= MAX_ATTEMPTS;
-  await sql`update rentife.admins
-            set failed_attempts = ${lock ? 0 : attempts},
-                locked_until = ${lock ? sql`now() + ${`${LOCK_MINUTES} minutes`}::interval` : admin.locked_until}
-            where id = ${admin.id}`;
-  if (lock) await audit(admin.id, "locked_out", "admin", admin.id, { minutes: LOCK_MINUTES });
+  const [row] = await adminDb()<{ locked: boolean }[]>`
+    update rentife.admins set
+      locked_until = case when failed_attempts + 1 >= ${MAX_ATTEMPTS}
+                          then now() + make_interval(mins => ${LOCK_MINUTES}) else locked_until end,
+      failed_attempts = case when failed_attempts + 1 >= ${MAX_ATTEMPTS} then 0 else failed_attempts + 1 end
+    where id = ${admin.id}
+    returning locked_until is not null and locked_until > now() as locked`;
+  if (row?.locked) await audit(admin.id, "locked_out", "admin", admin.id, { minutes: LOCK_MINUTES });
 }
 
 const isLocked = (a: Admin) => !!a.locked_until && a.locked_until.getTime() > Date.now();
