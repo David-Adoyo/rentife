@@ -72,7 +72,9 @@ export function LeadRow({ lead }: { lead: Lead }) {
               <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="btn btn-outline"><ChatCircleText size={16} /> WhatsApp</a>
             </div>
           </div>
-          <form action={action} className="space-y-3">
+          {/* Keyed on the saved values: React resets a form after its action, so remount it
+              with the new values instead of letting it fall back to the old ones. */}
+          <form key={`${lead.status}|${lead.notes}`} action={action} className="space-y-3">
             <input type="hidden" name="id" value={lead.id} />
             <div className="flex flex-wrap items-center gap-3">
               <label htmlFor={`status-${lead.id}`} className="text-sm font-medium">Status</label>
