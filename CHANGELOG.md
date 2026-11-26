@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0 · 26 Nov 2026
+- Real prices: Starter KSh 80, Growth KSh 60, Agency KSh 40 per occupied unit per month, set from competitor research. Calculator now shows the real monthly cost.
+
 ## 0.3.1 · 25 Nov 2026
 - Home page carousel now shows rental properties across Nairobi (Kasarani, Ruaka, Rongai, Kilimani, South B, Westlands) with a location label on each slide.
 

@@ -247,7 +247,7 @@ export default function Home() {
             <h2 className="display-2 mt-4">Questions landlords ask</h2>
             <div className="mt-8 rounded-[2rem] bg-white p-7 shadow-soft">
               <p className="text-sm font-semibold uppercase tracking-[0.12em] text-ink-600">Pricing</p>
-              <p className="mt-2 text-2xl font-medium">Per occupied unit, per month</p>
+              <p className="num mt-2 text-2xl font-medium">From KSh 40 to KSh 80 per occupied unit, per month</p>
               <p className="mt-2 text-ink-600">Free until your first payment is matched automatically.</p>
               <div className="mt-5">
                 <TextLink href="/pricing">See pricing</TextLink>

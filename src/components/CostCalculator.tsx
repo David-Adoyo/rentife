@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { PRICE_PER_UNIT_KES, placeholders } from "@/content/site";
+import { monthlyPrice, planFor } from "@/content/pricing";
 
 /**
  * "Cost of chasing" calculator (masterplan §9.2 item 6). Every figure is derived from
@@ -16,7 +16,8 @@ export function CostCalculator() {
   const lateTenants = Math.round((units * latePct) / 100);
   const atRisk = lateTenants * rent;
   const hours = (lateTenants * minutes) / 60;
-  const cost = PRICE_PER_UNIT_KES === null ? null : PRICE_PER_UNIT_KES * units;
+  const cost = monthlyPrice(units);
+  const plan = planFor(units);
   const ksh = (n: number) => n.toLocaleString("en-KE", { maximumFractionDigits: 0 });
 
   return (
@@ -45,12 +46,11 @@ export function CostCalculator() {
           </div>
           <div>
             <dt className="text-sm text-white/70">Rentife each month</dt>
-            <dd className="num mt-1 text-3xl font-medium">
-              {cost === null ? <span className="placeholder text-base">{placeholders.PRICE_PER_UNIT} × {units}</span> : `KSh ${ksh(cost)}`}
-            </dd>
+            <dd className="num mt-1 text-3xl font-medium">KSh {ksh(cost)}</dd>
+            <dd className="mt-1 text-xs text-white/70">{plan.name} plan · KSh {plan.perUnit} per unit</dd>
           </div>
         </dl>
-        <p className="text-xs text-white/60">Based only on the numbers you enter. Pricing is per occupied unit per month and free until your first payment is matched.</p>
+        <p className="text-xs text-white/60">Based only on the numbers you enter. Assumes every unit is occupied; vacant units are free. Excludes VAT. Free until your first payment is matched.</p>
       </div>
     </div>
   );

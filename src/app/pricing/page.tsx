@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Check } from "@phosphor-icons/react/dist/ssr";
-import { Eyebrow, Placeholder, SplitHeading } from "@/components/primitives";
+import { Eyebrow, SplitHeading } from "@/components/primitives";
 import { CostCalculator } from "@/components/CostCalculator";
 import { Faq, FinalCta } from "@/components/Sections";
-import { placeholders } from "@/content/site";
+import { ksh, plans } from "@/content/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description: "Rentife is priced per occupied unit per month, and free until your first payment is matched automatically.",
 };
-
-const plans = [
-  { name: "Starter", price: placeholders.PLAN_STARTER, for: "Landlords with a single building", featured: false },
-  { name: "Growth", price: placeholders.PLAN_GROWTH, for: "Landlords with several buildings", featured: true },
-  { name: "Agency", price: placeholders.PLAN_AGENCY, for: "Agents managing for many owners", featured: false },
-];
 
 const included = [
   "Automatic M-Pesa matching and review queue",
@@ -24,6 +18,8 @@ const included = [
   "Tenant portal with no app",
   "Arrears, statements and tax centre",
 ];
+
+const featured = "growth";
 
 const compare: [string, boolean, boolean, boolean][] = [
   ["Matching, receipts and reminders", true, true, true],
@@ -39,20 +35,27 @@ export default function Pricing() {
     <>
       <section className="container-x pt-36 sm:pt-44">
         <SplitHeading as="h1" size="display-1" eyebrow="Pricing" title="Pay per occupied unit">
-          Free until your first payment is matched automatically. Vacant units cost nothing. Final prices are being confirmed.
+          Free until your first payment is matched automatically. Vacant units cost nothing, and your plan follows your portfolio as it grows.
         </SplitHeading>
       </section>
 
       <section className="container-x pt-14">
         <div className="grid gap-5 lg:grid-cols-3">
-          {plans.map((p) => (
-            <div key={p.name} className={`flex flex-col rounded-[2.5rem] p-8 sm:p-10 ${p.featured ? "bg-plum-800 text-white" : "bg-white shadow-soft"}`}>
+          {plans.map((plan) => {
+            const p = { ...plan, featured: plan.id === featured };
+            return (
+            <div key={p.name} className={`relative flex flex-col rounded-[2.5rem] p-8 sm:p-10 ${p.featured ? "bg-plum-800 text-white" : "bg-white shadow-soft"}`}>
+              {p.featured && <span className="absolute right-8 top-8 rounded-full bg-pink-500 px-3 py-1 text-xs font-bold text-white">Most popular</span>}
               <p className={`text-sm font-bold uppercase tracking-[0.12em] ${p.featured ? "text-pink-500" : "text-pink-700"}`}>{p.name}</p>
-              <p className="mt-4 text-3xl font-medium">
-                <Placeholder>{p.price}</Placeholder>
+              <p className="num mt-4 flex items-baseline gap-1.5">
+                <span className={`text-lg ${p.featured ? "text-white/70" : "text-ink-600"}`}>KSh</span>
+                <span className="text-6xl font-medium tracking-tight">{p.perUnit}</span>
               </p>
               <p className={`mt-1 text-sm ${p.featured ? "text-white/70" : "text-ink-600"}`}>per occupied unit, per month</p>
-              <p className="mt-5">{p.for}</p>
+              <p className="mt-5 font-medium">{p.for}</p>
+              <p className={`num mt-1 text-sm ${p.featured ? "text-white/70" : "text-ink-600"}`}>
+                {p.maxUnits ? `${p.minUnits}–${p.maxUnits} units` : `${p.minUnits}+ units, or any agency`} · minimum {ksh(p.minimum)} a month
+              </p>
               <ul className="mt-6 flex-1 space-y-3 text-sm">
                 {included.map((i) => (
                   <li key={i} className="flex gap-2">
@@ -65,10 +68,11 @@ export default function Pricing() {
                 Book a free setup
               </Link>
             </div>
-          ))}
+            );
+          })}
         </div>
         <p className="mt-6 text-sm text-ink-600">
-          Minimum monthly fee: <Placeholder>{placeholders.MIN_MONTHLY_FEE}</Placeholder>. Price per unit: <Placeholder>{placeholders.PRICE_PER_UNIT}</Placeholder>.
+          Prices in Kenyan shillings, excluding VAT. Only occupied units are counted. Free until your first payment is matched automatically.
         </p>
       </section>
 
@@ -116,6 +120,7 @@ export default function Pricing() {
           items={[
             { q: "When do I start paying?", a: "Rentife is free until your first payment is matched automatically. After that you pay per occupied unit each month." },
             { q: "Do vacant units count?", a: "No. You only pay for occupied units." },
+            { q: "Which plan am I on?", a: "It follows the number of occupied units: Starter up to 30, Growth from 31 to 100, and Agency above 100 or whenever you manage for other owners. Each plan’s minimum matches the top of the plan before it, so your bill never jumps when you grow." },
             { q: "Does Rentife take a cut of my rent?", a: "No. Rent goes straight to your own Paybill, Till or bank. Rentife never receives or holds it." },
             { q: "What happens if I stop paying for Rentife?", a: "Rent keeps flowing into your own account. Your records stay available to view and export." },
           ]}

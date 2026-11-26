@@ -28,3 +28,9 @@ row-level security is on, `anon`/`authenticated` have no grants, and the website
 `rentife_writer`, a login that can only INSERT into that one table (no reads, no other schemas).
 Schema in `db/001_leads.sql`. The connection string is a sensitive Vercel env var (`DATABASE_URL`).
 Move to a dedicated Rentife project when one is available.
+
+## D-006 · Prices set from competitor research
+At the owner's request, the `{{PLAN_*}}`/`{{PRICE_PER_UNIT}}` placeholders were replaced with real prices:
+Starter KSh 80/unit (1–30 units, min 800), Growth KSh 60/unit (31–100, min 2,400), Agency KSh 40/unit
+(101+ or any agent, min 6,000), per occupied unit per month, excl. VAT. Logic lives in `src/content/pricing.ts`;
+research and reasoning in `docs/pricing-research.md`.

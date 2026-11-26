@@ -9,18 +9,11 @@ export const placeholders = {
   SUPPORT_EMAIL: "{{SUPPORT_EMAIL}}",
   SUPPORT_WHATSAPP: "{{SUPPORT_WHATSAPP}}",
   ODPC_REG_NO: "{{ODPC_REG_NO}}",
-  PRICE_PER_UNIT: "{{PRICE_PER_UNIT}}",
-  MIN_MONTHLY_FEE: "{{MIN_MONTHLY_FEE}}",
-  PLAN_STARTER: "{{PLAN_STARTER}}",
-  PLAN_GROWTH: "{{PLAN_GROWTH}}",
-  PLAN_AGENCY: "{{PLAN_AGENCY}}",
   DEMO_VIDEO_URL: "{{DEMO_VIDEO_URL}}",
   BOOKING_URL: "{{BOOKING_URL}}",
   LEGAL_TEXT: "{{LEGAL_TEXT}}",
 } as const;
 
-/** Numeric price per occupied unit per month in KES. null until pricing is decided. */
-export const PRICE_PER_UNIT_KES: number | null = null;
 
 export type NavLink = { label: string; href: string; description?: string };
 export type NavGroup = { title: string; links: NavLink[] };
