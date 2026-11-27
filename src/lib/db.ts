@@ -3,7 +3,7 @@ import postgres from "postgres";
 
 /**
  * Connection for the insert-only `rentife_writer` role (see db/001_leads.sql).
- * Uses Supabase's transaction pooler, so prepared statements are disabled.
+ * Uses the Supabase pooler in session mode (port 5432); prepared statements stay disabled.
  */
 let sql: postgres.Sql | null = null;
 

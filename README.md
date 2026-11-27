@@ -29,7 +29,7 @@ The source logos live in `brand-source/`. `npm run icons` (Python 3 + Pillow) re
 
 ## Booking leads
 
-`/book-setup` saves leads to `rentife.leads` in Supabase (`db/001_leads.sql`). Set `DATABASE_URL` (see `.env.example`); without it, local development prints leads to the console instead. View leads in the Supabase dashboard: Table Editor → schema `rentife` → `leads`.
+`/book-setup` saves leads to `rentife.leads` in Supabase (`db/001_leads.sql`). Set `DATABASE_URL` (see `.env.example`); without it, local development prints leads to the console instead. View leads in the Supabase dashboard: project **Rentife** → Table Editor → schema `rentife` → `leads`.
 
 ## Admin
 

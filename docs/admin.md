@@ -6,7 +6,7 @@
 Sessions last 12 hours. "Sign out everywhere" ends every session on every device.
 
 ## Adding a staff member
-Run this in the Supabase SQL editor (MedTRANS project), replacing the email, and keep the token secret:
+Run this in the Supabase SQL editor (Rentife project), replacing the email, and keep the token secret:
 
 ```sql
 -- 1. Create the account (no password yet).

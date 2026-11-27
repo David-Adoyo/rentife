@@ -1,5 +1,4 @@
--- Rentife booking leads. Lives in its own `rentife` schema inside the shared Supabase project
--- (free plan project limit; see DECISIONS.md D-005). Applied on 25 Nov 2026.
+-- Rentife booking leads, in the `rentife` schema of the Rentife Supabase project (DECISIONS.md D-008).
 create schema if not exists rentife;
 revoke all on schema rentife from public, anon, authenticated;
 

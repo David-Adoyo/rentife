@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.0 · 27 Nov 2026
+- Moved to a dedicated Supabase project "Rentife" with queues, private storage buckets, scheduled jobs, vault and Auth configured; server functions pinned to Dublin.
+
 ## 0.6.0 · 26 Nov 2026
 - Staff admin at /admin: invite-only accounts, password plus authenticator sign-in, leads dashboard with status, notes, search, call and WhatsApp buttons, CSV export and an audit log.
 
