@@ -52,3 +52,7 @@ queues `payments_ingest`, `messages_outbox`, `pdf_render`, private buckets `mete
 live site, 12-character passwords and authenticator MFA; phone sign-in stays off until an Africa's Talking
 SMS hook exists. Vercel functions run in dub1 next to the database.
 Free-plan limits still apply (no backups, pauses after ~7 days idle, 500 MB) — upgrade to Pro before real rent data.
+
+## D-009 · Resend for Supabase Auth email
+Login emails go through Resend SMTP (eu-west-1) from no-reply@rentife.co.ke, with a Resend key limited
+to sending from rentife.co.ke. Branded UK-English templates in `emails/build.py`; DNS in `docs/email.md`.

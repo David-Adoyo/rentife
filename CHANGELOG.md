@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.1 · 27 Nov 2026
+- Login emails via Resend from no-reply@rentife.co.ke with branded templates (pending DNS verification).
+
 ## 0.7.0 · 27 Nov 2026
 - Moved to a dedicated Supabase project "Rentife" with queues, private storage buckets, scheduled jobs, vault and Auth configured; server functions pinned to Dublin.
 
