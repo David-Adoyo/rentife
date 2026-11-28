@@ -34,7 +34,7 @@ export default async function Properties() {
                     <p className="text-lg font-medium">{p.name}</p>
                     <p className="text-sm text-ink-600">{[p.estate, p.county].filter(Boolean).join(", ") || "No location yet"} · codes start {p.code_prefix}-</p>
                   </div>
-                  <span className="num shrink-0 text-right text-sm"><b className="text-lg font-medium">{s.total}</b> units<br /><span className="text-ink-600">{s.total ? Math.round((s.occ / s.total) * 100) : 0}% occupied</span></span>
+                  <span className="num shrink-0 text-right text-sm"><b className="text-lg font-medium">{s.total}</b> {s.total === 1 ? "unit" : "units"}<br /><span className="text-ink-600">{s.total ? Math.round((s.occ / s.total) * 100) : 0}% occupied</span></span>
                 </div>
                 <div className="mt-4 h-2 overflow-hidden rounded-full bg-cream-100"><div className="h-full rounded-full bg-paid" style={{ width: `${s.total ? (s.occ / s.total) * 100 : 0}%` }} /></div>
               </Link>

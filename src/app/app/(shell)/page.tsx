@@ -52,14 +52,14 @@ export default async function Home() {
         </Card>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {[
           ["Properties", byProperty.length],
           ["Units", units.length],
           ["Occupied", units.length ? `${occupied} (${Math.round((occupied / units.length) * 100)}%)` : "0"],
           can.seeMoney ? ["Monthly rent roll", ksh(expected)] : ["Vacant", units.length - occupied],
         ].map(([k, v]) => (
-          <Card key={k as string}><p className="text-sm text-ink-600">{k}</p><p className="num mt-1 text-3xl font-medium">{v}</p></Card>
+          <Card key={k as string} className="p-4 sm:p-6"><p className="text-sm text-ink-600">{k}</p><p className="num mt-1 text-2xl font-medium sm:text-3xl">{v}</p></Card>
         ))}
       </div>
 
@@ -74,7 +74,7 @@ export default async function Home() {
         {byProperty.map((p) => (
           <Card key={p.id}>
             <Link href={`/app/properties/${p.id}`} className="flex items-center justify-between font-medium hover:text-pink-700">
-              {p.name} <span className="text-sm text-ink-600">{p.units.length} units</span>
+              {p.name} <span className="text-sm text-ink-600">{p.units.length} {p.units.length === 1 ? "unit" : "units"}</span>
             </Link>
             <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-2">
               {p.units.map((u) => (
