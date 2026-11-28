@@ -4,7 +4,7 @@
  * contacts, legal text, statistics or testimonials.
  */
 export const placeholders = {
-  DOMAIN: "{{DOMAIN}}",
+  DOMAIN: "rentife.co.ke",
   SUPPORT_PHONE: "{{SUPPORT_PHONE}}",
   SUPPORT_EMAIL: "{{SUPPORT_EMAIL}}",
   SUPPORT_WHATSAPP: "{{SUPPORT_WHATSAPP}}",

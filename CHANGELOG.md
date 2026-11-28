@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.2 · 28 Nov 2026
+- Site served at rentife.co.ke (www redirects); canonical URLs, sitemap and Supabase login links use the new domain.
+
 ## 0.7.1 · 27 Nov 2026
 - Login emails via Resend from no-reply@rentife.co.ke with branded templates. Domain verified 28 Nov 2026; test sign-in email delivered.
 

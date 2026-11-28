@@ -16,7 +16,7 @@ insert into rentife.admins (email, name) values ('person@example.com', 'Their Na
 insert into rentife.admin_invites (token_hash, admin_id, expires_at)
 values (encode(sha256(convert_to('<TOKEN>', 'UTF8')), 'hex'), '<ADMIN_ID>', now() + interval '24 hours');
 ```
-Send them `https://rentife.vercel.app/admin/invite/<TOKEN>`. It works once and expires after 24 hours.
+Send them `https://rentife.co.ke/admin/invite/<TOKEN>`. It works once and expires after 24 hours.
 
 ## Locked out or lost your phone
 Create a new invite for the same admin (step 3 above). Setting up again replaces the password and authenticator.

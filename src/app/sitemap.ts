@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
-// TODO: replace with the production domain once {{DOMAIN}} is confirmed.
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+// Public address, set by NEXT_PUBLIC_SITE_URL (https://rentife.co.ke in production).
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rentife.co.ke";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return ["", "/for-landlords", "/how-it-works", "/for-agents", "/for-diaspora-owners", "/pricing", "/security", "/book-setup"].map((p) => ({

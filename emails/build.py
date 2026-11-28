@@ -4,7 +4,7 @@ Templates use Supabase's Go template variables ({{ .ConfirmationURL }}, {{ .Toke
 """
 import json
 
-LOGO = "https://rentife.vercel.app/brand/rentife-wordmark-white.png"
+LOGO = "https://rentife.co.ke/brand/rentife-wordmark-white.png"
 
 def page(heading: str, body: str, button: str | None = None, after: str = "") -> str:
     btn = (

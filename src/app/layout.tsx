@@ -3,6 +3,8 @@ import "@fontsource-variable/dm-sans";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://rentife.co.ke"),
+  alternates: { canonical: "/" },
   title: {
     default: "Rentife — Rent that collects itself",
     template: "%s · Rentife",
