@@ -14,14 +14,25 @@ export function MfaFlow({ factorId, next }: { factorId: string | null; next: str
   useEffect(() => {
     if (factorId) return;
     const sb = supabaseBrowser();
+    // If this effect runs twice (re-render, remount), only the latest set-up may reach the screen;
+    // otherwise the page could show the key of a set-up that the second run already removed.
+    let stale = false;
     (async () => {
       // Clear any half-finished set-up before starting a new one.
       const { data } = await sb.auth.mfa.listFactors();
       for (const f of data?.all ?? []) if (f.status === "unverified") await sb.auth.mfa.unenroll({ factorId: f.id });
-      const { data: e, error: err } = await sb.auth.mfa.enroll({ factorType: "totp", friendlyName: `Rentife ${new Date().toISOString().slice(0, 10)}` });
+      if (stale) return;
+      const { data: e, error: err } = await sb.auth.mfa.enroll({ factorType: "totp", friendlyName: `Rentife ${crypto.randomUUID().slice(0, 8)}` });
+      if (stale) {
+        if (e) await sb.auth.mfa.unenroll({ factorId: e.id });
+        return;
+      }
       if (err || !e) return setError(err?.message ?? "Could not start set-up. Refresh the page.");
       setEnrol({ id: e.id, qr: e.totp.qr_code, secret: e.totp.secret });
     })();
+    return () => {
+      stale = true;
+    };
   }, [factorId]);
 
   async function verify(form: FormData) {
@@ -33,6 +44,11 @@ export function MfaFlow({ factorId, next }: { factorId: string | null; next: str
     const { error: err } = await supabaseBrowser().auth.mfa.challengeAndVerify({ factorId: id, code });
     if (err) {
       setBusy(false);
+      // A set-up that no longer exists (e.g. started in another tab): start again with a fresh QR code.
+      if (!factorId && /not found|unverified|factor/i.test(err.message) && !/code|invalid/i.test(err.message)) {
+        setEnrol(null);
+        return setError("Your set-up expired. Refresh the page to get a new QR code.");
+      }
       return setError("That code isn’t right. Check the app and try again.");
     }
     router.replace(next);
