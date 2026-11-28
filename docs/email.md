@@ -3,7 +3,10 @@
 Supabase Auth sends sign-in, confirmation, password-reset and invite emails through Resend's SMTP,
 as **Rentife <no-reply@rentife.co.ke>**, using a Resend key limited to *sending* from rentife.co.ke.
 
-## DNS records for rentife.co.ke (add at Hostpinnacle → cPanel → Zone Editor)
+## DNS records for rentife.co.ke
+
+DNS is hosted on the DirectAdmin server (nameservers `ns1/ns2.server-23-106-59-129.da.direct`, set at HostPinnacle → Domains → Nameservers). Edit records in DirectAdmin → DNS Management. Hostname values need a trailing dot there. Verified in Resend on 28 Nov 2026.
+
 
 | Type | Name / Host | Value | Priority |
 |---|---|---|---|
