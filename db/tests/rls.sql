@@ -186,6 +186,39 @@ begin
   failed := false; begin perform public.accept_invitation(token); exception when others then failed := true; end;
   perform pg_temp.ok('Invitation link works only once', failed);
 
+  -- ── Stage 4: register import, payment settings, reminders ──
+  perform pg_temp.act(alice);
+  declare res jsonb; begin
+    res := public.import_register(p1, '[{"label":"C1","rent":1200000,"tenant_name":"Achieng Otieno","phones":["+254711000001"],"move_in":"2026-11-01"},
+                                       {"label":"C2","rent":1200000},{"label":"C3","unit_code":"SUN-CORNER","rent":900000}]'::jsonb);
+    perform pg_temp.ok('Register import adds units and tenants in one go', (res ->> 'units')::int = 3 and (res ->> 'tenants')::int = 1, res::text);
+  exception when others then perform pg_temp.ok('Register import adds units and tenants in one go', false, sqlerrm); end;
+  select count(*) into n from public.units where property_id = p1 and unit_code = 'SUN-CORNER';
+  perform pg_temp.ok('Import honours an edited unit code', n = 1);
+  select count(*) into n from public.units where org_id = org_a;
+  failed := false; begin
+    perform public.import_register(p1, '[{"label":"D1","rent":100},{"label":"D2","rent":100,"tenant_name":"Bad","phones":["0712"]}]'::jsonb);
+  exception when others then failed := true; end;
+  perform pg_temp.ok('A bad row cancels the whole import (nothing half-done)', failed and n = (select count(*) from public.units where org_id = org_a));
+  failed := false; begin perform public.import_register(p1, '[{"label":"E1","unit_code":"SUN-B4","rent":1}]'::jsonb); exception when others then failed := true; end;
+  perform pg_temp.ok('Import refuses a unit code already in use', failed);
+  insert into public.payment_settings (org_id, method, shortcode) values (org_a, 'mpesa_paybill', '522533');
+  perform pg_temp.act(bob);
+  failed := false; begin perform public.import_register(p1, '[{"label":"X1","rent":1}]'::jsonb); exception when others then failed := true; end;
+  perform pg_temp.ok('Other org: cannot import into someone else''s property', failed);
+  select count(*) into n from public.payment_settings where org_id = org_a; perform pg_temp.ok('Other org: payment settings hidden', n = 0);
+  failed := false; begin perform public.set_onboarding_step(org_a, 5::smallint); exception when others then failed := true; end;
+  perform pg_temp.ok('Other org: cannot change onboarding progress', failed);
+  perform pg_temp.act(care);
+  failed := false; begin perform public.import_register(p1, '[{"label":"Y1","rent":1}]'::jsonb); exception when others then failed := true; end;
+  perform pg_temp.ok('Caretaker cannot import units', failed);
+  select count(*) into n from public.payment_settings where org_id = org_a; perform pg_temp.ok('Caretaker can read the Paybill (for the building notice)', n = 1);
+  perform pg_temp.act(mgr);
+  update public.payment_settings set shortcode = '999999' where org_id = org_a; get diagnostics n = row_count;
+  perform pg_temp.ok('Manager cannot change how tenants pay', n = 0);
+  insert into public.reminder_rules (org_id, tone) values (org_a, 'gentle');
+  select count(*) into n from public.reminder_rules where org_id = org_a; perform pg_temp.ok('Manager can set the reminder tone', n = 1);
+
   -- ── Anonymous visitors ──
   execute 'reset role'; perform set_config('request.jwt.claims', '{"role":"anon"}', true); execute 'set local role anon';
   failed := false; begin select count(*) into n from public.properties; exception when others then failed := true; end;

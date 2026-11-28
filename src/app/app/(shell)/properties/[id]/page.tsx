@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, FilePdf } from "@phosphor-icons/react/dist/ssr";
+import { RegisterImport } from "@/components/app/RegisterImport";
+import { aiImportEnabled } from "../../../import-actions";
 import { appContext } from "@/lib/app/context";
 import { ActionForm } from "@/components/app/ActionForm";
 import { Card, Empty, Field, PageHeader, StatusPill, input } from "@/components/app/ui";
@@ -31,8 +33,21 @@ export default async function Property({ params }: { params: Promise<{ id: strin
     <div className="space-y-8">
       <Link href="/app/properties" className="inline-flex items-center gap-1.5 text-sm text-ink-600 hover:text-pink-700"><ArrowLeft size={14} /> Properties</Link>
       <PageHeader eyebrow={[p.estate, p.county].filter(Boolean).join(", ") || "Property"} title={p.name}>
-        <p className="text-sm text-ink-600">Rent due on day {p.default_due_day} · {p.default_grace_days} days’ grace · codes {p.code_prefix}-…</p>
+        <div className="flex flex-col items-start gap-2 sm:items-end">
+          <p className="text-sm text-ink-600">Rent due on day {p.default_due_day} · {p.default_grace_days} days’ grace · codes {p.code_prefix}-…</p>
+          {!!sorted.length && <a href={`/app/properties/${p.id}/notice`} target="_blank" rel="noopener" className="btn btn-outline h-10 min-h-10"><FilePdf size={16} /> How-to-pay notice</a>}
+        </div>
       </PageHeader>
+
+      {can.edit && (
+        <details className="rounded-[1.5rem] bg-white p-5 shadow-soft sm:p-6" open={!sorted.length}>
+          <summary className="cursor-pointer text-lg font-medium">Import units and tenants from Excel or a photo</summary>
+          <div className="mt-5">
+            <RegisterImport propertyId={p.id} prefix={p.code_prefix} existingCodes={(codes ?? []).map((c) => c.code.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
+              aiEnabled={await aiImportEnabled()} doneHref={`/app/properties/${p.id}`} />
+          </div>
+        </details>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
         <section aria-label="Units" className="space-y-3">

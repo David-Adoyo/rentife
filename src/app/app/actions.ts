@@ -28,11 +28,14 @@ export async function createOrganisation(_: ActionResult, f: FormData): Promise<
   if (name.length < 2) return fail("Enter your organisation’s name.");
   if (fullName.length < 2) return fail("Enter your name.");
   if (!["individual", "family", "agency"].includes(type)) return fail("Choose what kind of landlord you are.");
+  if (str(f, "phone") && !kePhone(str(f, "phone"))) return fail("Enter a Kenyan mobile number, like 0712 345 678, or leave it blank.");
   const supabase = await supabaseServer();
   const { data, error } = await supabase.rpc("create_organisation", { p_name: name, p_type: type, p_full_name: fullName });
   if (error) return dbError(error, "Could not create your organisation.");
   (await cookies()).set(ORG_COOKIE, data as string, { path: "/", httpOnly: true, sameSite: "lax", secure: true, maxAge: 60 * 60 * 24 * 365 });
-  redirect("/app");
+  const phoneRaw = str(f, "phone"), phone = phoneRaw ? kePhone(phoneRaw) : null;
+  if (phone) await supabase.from("organisations").update({ contact_phone: phone }).eq("id", data as string);
+  redirect("/app/onboarding?step=2");
 }
 
 export async function switchOrg(f: FormData) {
@@ -59,6 +62,10 @@ export async function createProperty(_: ActionResult, f: FormData): Promise<Acti
   }).select("id").single();
   if (error) return dbError(error, "Could not add the property.");
   revalidatePath("/app", "layout");
+  if (str(f, "then") === "onboarding") {
+    await supabase.rpc("set_onboarding_step", { p_org: org.id, p_step: 3, p_done: false });
+    redirect(`/app/onboarding?step=3&property=${data.id}`);
+  }
   redirect(`/app/properties/${data.id}`);
 }
 

@@ -35,7 +35,14 @@ export default async function Home() {
     <div className="space-y-8">
       <PageHeader eyebrow={org.name} title="Home" />
 
-      {can.edit && steps.some((s) => !s.done) && (
+      {can.edit && !org.onboarding_completed_at && (
+        <Link href={`/app/onboarding?step=${org.onboarding_step}`} className="flex flex-wrap items-center justify-between gap-4 rounded-[1.5rem] bg-plum-800 p-6 text-white shadow-soft">
+          <span><span className="block text-lg font-medium">Finish setting up Rentife</span><span className="text-white/80">Step {org.onboarding_step} of 7 · live in under an hour</span></span>
+          <span className="btn btn-light">Continue set-up <ArrowRight size={16} /></span>
+        </Link>
+      )}
+
+      {can.edit && org.onboarding_completed_at && steps.some((s) => !s.done) && (
         <Card>
           <p className="font-medium">Getting started</p>
           <ol className="mt-3 grid gap-2 sm:grid-cols-2">

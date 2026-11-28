@@ -19,9 +19,12 @@ export default async function Welcome() {
   if (m?.length) redirect("/app");
   const name = (auth.user.user_metadata?.full_name as string | undefined) ?? "";
   return (
-    <AuthShell title="Welcome to Rentife" text="Two quick details and you’re in. You can add your properties next.">
+    <AuthShell title="Welcome to Rentife" text="Step 1 of 7 · About you. Setting up takes under an hour, and you can stop and come back any time.">
       <ActionForm action={createOrganisation} submit="Continue" submitClass="btn btn-primary w-full" resetOnSuccess={false}>
         <Field label="Your name" htmlFor="full_name"><input id="full_name" name="full_name" defaultValue={name} required className={input} /></Field>
+        <Field label="Your mobile number (optional)" htmlFor="phone" hint="So we can reach you about your account.">
+          <input id="phone" name="phone" type="tel" inputMode="tel" placeholder="0712 345 678" className={input} />
+        </Field>
         <Field label="Organisation name" htmlFor="name" hint="What tenants and owners will see, e.g. Mwangaza Homes.">
           <input id="name" name="name" required className={input} />
         </Field>

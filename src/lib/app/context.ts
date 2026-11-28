@@ -28,7 +28,7 @@ export const appContext = cache(async () => {
 
   const chosen = (await cookies()).get(ORG_COOKIE)?.value;
   const membership = memberships.find((m) => m.org_id === chosen) ?? memberships[0];
-  const { data: orgs } = await supabase.from("organisations").select("id, name, type").in("id", memberships.map((m) => m.org_id));
+  const { data: orgs } = await supabase.from("organisations").select("id, name, type, onboarding_step, onboarding_completed_at, contact_phone").in("id", memberships.map((m) => m.org_id));
   const org = orgs?.find((o) => o.id === membership.org_id);
   if (!org) redirect("/auth/mfa?next=/app");
   const role = membership.role as Role;
