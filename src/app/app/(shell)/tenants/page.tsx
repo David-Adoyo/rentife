@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { appContext } from "@/lib/app/context";
 import { ActionForm } from "@/components/app/ActionForm";
@@ -18,11 +19,13 @@ export default async function Tenants({ searchParams }: { searchParams: Promise<
     .select("id, full_name, phones, email, preferred_language, tenancies(id, status, start_date, rent_amount, unit_id, units(unit_code, property_id))")
     .eq("org_id", org.id).is("archived_at", null).order("full_name").limit(300);
   if (q) query = query.ilike("full_name", `%${q.replace(/[%_]/g, "")}%`);
-  const [{ data: tenants }, { data: vacant }] = await Promise.all([
+  const [{ data: tenants }, { data: vacant }, { data: balances }] = await Promise.all([
     query,
     supabase.from("unit_board").select("id, unit_code, property_name, rent_amount").eq("org_id", org.id).eq("status", "vacant").order("unit_code"),
+    supabase.from("tenancy_balances").select("tenancy_id, balance").eq("org_id", org.id),
   ]);
   const today = new Date().toISOString().slice(0, 10);
+  const owed = new Map((balances ?? []).map((b) => [b.tenancy_id, b.balance as number]));
 
   return (
     <div className="space-y-8">
@@ -46,9 +49,18 @@ export default async function Tenants({ searchParams }: { searchParams: Promise<
                     <span className="block font-medium">{t.full_name}</span>
                     <span className="num text-sm text-ink-600">{(t.phones as string[]).join(" · ")}</span>
                   </span>
-                  {live ? <span className="text-right text-sm"><span className="num font-semibold">{live.units?.unit_code}</span><br /><span className="text-ink-600">{ksh(live.rent_amount)}</span></span> : <StatusPill status="vacant" />}
+                  {live ? (
+                    <span className="text-right text-sm">
+                      <span className="num font-semibold">{live.units?.unit_code}</span><br />
+                      {(owed.get(live.id) ?? 0) > 0
+                        ? <span className="num text-overdue">{ksh(owed.get(live.id))} owed</span>
+                        : (owed.get(live.id) ?? 0) < 0 ? <span className="num text-paid">{ksh(-(owed.get(live.id) ?? 0))} credit</span>
+                        : <span className="text-ink-600">{ksh(live.rent_amount)} rent</span>}
+                    </span>
+                  ) : <StatusPill status="vacant" />}
                 </summary>
                 <div className="border-t border-line p-4 text-sm">
+                  <Link href={`/app/tenants/${t.id}`} className="mb-3 inline-block font-medium text-plum-800 underline">Statement, invoices and charges ›</Link>
                   {live ? (
                     <div className="flex flex-wrap items-end justify-between gap-4">
                       <p>In <b className="num">{live.units?.unit_code}</b> since {dateKE(live.start_date)}, rent {ksh(live.rent_amount)}.</p>

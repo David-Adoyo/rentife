@@ -1,0 +1,6 @@
+
+> rentife@0.1.0 test
+> tsx tests/register.test.ts && tsx tests/billing.test.ts
+
+25/25 passed
+billing: 32/32 passed

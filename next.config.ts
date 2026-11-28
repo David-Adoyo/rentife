@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   // react-pdf's PDF engine (pdfkit) reads its built-in fonts from its own package folder at runtime,
   // so it must not be bundled, and those font files must ship with the server functions.
   serverExternalPackages: ["@react-pdf/renderer", "pdfkit"],
-  outputFileTracingIncludes: { "/app/**/notice": ["./node_modules/pdfkit/js/standard-fonts/**", "./node_modules/pdfkit/js/data/**"] },
+  outputFileTracingIncludes: { "/app/**": ["./node_modules/pdfkit/js/standard-fonts/**", "./node_modules/pdfkit/js/data/**"] },
   experimental: { optimizePackageImports: ["@phosphor-icons/react"] },
   async headers() {
     return [

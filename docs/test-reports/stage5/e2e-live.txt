@@ -1,0 +1,31 @@
+✔ Billing appears in the menu for the owner
+✔ Billing page: no invoices yet
+✔ Recurring charge added and listed
+✔ Run billing now creates the catch-up charges (10 charges, 6 invoices)
+✔ Running it again charges nothing twice
+✔ Database: KSh 104,250 billed (rent 96,000 incl. part month + quarterly, service 8,250)
+✔ November invoices listed with tenants and units
+✔ Tenants list shows what each tenant owes
+✔ Tenant page: balance KSh 33,000 owed
+✔ Statement shows a running balance
+✔ One-off charge added
+✔ Credit note recorded
+✔ Waiver recorded
+✔ Waiving more than is owed is refused in plain English
+✔ Rent change scheduled for January 2027
+✔ Balance reconciles: 30,000 + 3,000 + 500 − 2,000 − 1,500 = KSh 30,000
+✔ Page shows the new balance
+✔ Statement PDF
+✔ Invoice PDF
+✔ Mid-month move-in billed for 15 of 30 days (KSh 6,000 rent + KSh 750 service)
+✔ billing page fits a 390px phone
+✔ tenants page fits a 390px phone
+✔ Caretaker: no Billing in the menu
+✔ Caretaker: Billing page sends them home
+✔ Caretaker: invoice PDF not found
+✔ Caretaker: statement PDF not found
+✔ Signed out: invoice PDF refused
+✔ Nightly job refuses calls without the secret
+✔ Nightly job runs as the billing role; nothing double-charged after the manual run
+✔ Billing runs logged (2 by hand, 1 for the one-off charge, then the automatic run)
+30/30 passed

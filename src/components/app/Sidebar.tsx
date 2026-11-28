@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Buildings, ClockCounterClockwise, House, SignOut, UsersThree, IdentificationCard } from "@phosphor-icons/react";
+import { Buildings, ClockCounterClockwise, House, SignOut, UsersThree, IdentificationCard, Receipt } from "@phosphor-icons/react";
 
-type Item = { href: string; label: string; icon: "home" | "properties" | "tenants" | "team" | "activity" };
-const icons = { home: House, properties: Buildings, tenants: IdentificationCard, team: UsersThree, activity: ClockCounterClockwise };
+type Item = { href: string; label: string; icon: "home" | "properties" | "tenants" | "billing" | "team" | "activity" };
+const icons = { home: House, properties: Buildings, tenants: IdentificationCard, billing: Receipt, team: UsersThree, activity: ClockCounterClockwise };
 
 export function Sidebar({
   items, orgs, currentOrg, userLabel, roleLabel, switchOrg, signOut,

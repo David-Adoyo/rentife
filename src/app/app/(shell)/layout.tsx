@@ -11,6 +11,7 @@ export default async function Shell({ children }: { children: React.ReactNode })
     { href: "/app", label: "Home", icon: "home" as const },
     { href: "/app/properties", label: "Properties", icon: "properties" as const },
     ...(ctx.can.seeTenants ? [{ href: "/app/tenants", label: "Tenants", icon: "tenants" as const }] : []),
+    ...(ctx.can.seeMoney ? [{ href: "/app/billing", label: "Billing", icon: "billing" as const }] : []),
     { href: "/app/team", label: "Team", icon: "team" as const },
     ...(ctx.can.seeAudit ? [{ href: "/app/activity", label: "Activity", icon: "activity" as const }] : []),
   ];

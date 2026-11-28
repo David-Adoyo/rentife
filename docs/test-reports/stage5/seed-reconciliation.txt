@@ -1,0 +1,23 @@
+✔ Seed: 3 properties, 64 units, 58 tenancies — 624 charges, 381 invoices over 25 billing runs
+✔ Every automated charge was created exactly once (624 expected) — 624
+✔ Total billed matches the engine to the cent — KSh 6,857,400.00
+✔ Every tenancy’s balance matches the independent calculation to the cent — 0 mismatches
+✔ Ledger balance = charges − adjustments for every tenancy
+✔ Ledger balance = what is owed on open charges − unused credit, for every tenancy
+✔ No charge is over-allocated and no credit is over-spent
+✔ Credit carried forward: 20,000 credit fully used on later charges, oldest first — 2026-06:paid 2026-07:part_paid 2026-08:open 2026-08:open 2026-09:open 2026-09:open 2026-10:open 2026-10:open 2026-11:open 2026-11:open 2026-12:open 2026-12:open
+✔ Waived charge is marked waived, written-off charge settled
+✔ Move-outs: no rent after the move-out month; unused days credited — Unused days after moving out on 2026-09-20 5167; Unused days after moving out on 2026-10-08 16694
+✔ Charge statuses agree with allocations
+✔ Every charge is on exactly one invoice; invoice totals = their charges
+✔ Invoice numbers are sequential with no gaps — INV-2026-000001 … INV-2026-000381
+✔ Statement running balance ends at the tenancy balance
+✔ Pro-rata: mid-month move-in charged a part month
+✔ Rent review applied from its month
+✔ Quarterly tenancy billed once per quarter (2026-06, 2026-09, 2026-12) — 2026-06 KSh 46500, 2026-09 KSh 46500, 2026-12 KSh 46500
+✔ Recurring charges: service charge on Acacia, garbage from August, parking on one unit
+✔ Re-running all billing creates nothing new (idempotent)
+✔ Ledger entries cannot be edited
+✔ Charge amounts cannot be edited
+✔ Allocations cannot be deleted
+22/22 passed

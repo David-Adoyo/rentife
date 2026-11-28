@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
 import { appContext, ORG_COOKIE } from "@/lib/app/context";
 import { kePhone, toCents } from "@/lib/money";
+import { moveOutCredit, periodOf, todayKE } from "@/core/billing";
 import { siteUrl } from "@/lib/app/safe-next";
 import type { ActionResult } from "@/components/app/ActionForm";
 
@@ -179,12 +180,26 @@ export async function startTenancy(_: ActionResult, f: FormData): Promise<Action
 
 export async function endTenancy(_: ActionResult, f: FormData): Promise<ActionResult> {
   const { supabase } = await appContext();
-  const end = str(f, "end_date") || new Date().toISOString().slice(0, 10);
-  const { data, error } = await supabase.from("tenancies").update({ status: "ended", end_date: end }).eq("id", str(f, "tenancy_id")).select("id");
+  const end = str(f, "end_date") || todayKE();
+  const id = str(f, "tenancy_id");
+  const { data, error } = await supabase.from("tenancies").update({ status: "ended", end_date: end }).eq("id", id).select("id, start_date, rent_amount, billing_frequency");
   if (error) return dbError(error, "Could not end the tenancy.");
   if (!data?.length) return fail("You don’t have permission to do that.");
+  // If the final month was already charged in full, give back the unused days (monthly tenancies).
+  let credited = 0;
+  const t = data[0];
+  if (t.billing_frequency === "monthly") {
+    const { data: ch } = await supabase.from("charges").select("amount").eq("tenancy_id", id).eq("source", "billing_run").eq("charge_type", "rent").eq("period", periodOf(end)).maybeSingle();
+    if (ch) {
+      credited = moveOutCredit(ch.amount, t.rent_amount, t.start_date, end);
+      if (credited > 0) {
+        const { error: e } = await supabase.rpc("make_adjustment", { p_tenancy: id, p_kind: "credit_note", p_amount: credited, p_charge: null, p_reason: `Unused days after moving out on ${end}` });
+        if (e) credited = 0;
+      }
+    }
+  }
   revalidatePath("/app", "layout");
-  return { ok: true, message: "Tenancy ended; the unit is now vacant." };
+  return { ok: true, message: `Tenancy ended; the unit is now vacant.${credited ? ` Credited KSh ${(credited / 100).toLocaleString("en-KE")} for unused days.` : ""}` };
 }
 
 /* ── Team ─────────────────────────────────────────────────────────────────── */

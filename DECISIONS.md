@@ -80,3 +80,28 @@ rolled-back transaction. Phone (SMS) sign-in waits for the Africa's Talking acco
 - Security fix: `app.has_role()` returned NULL for non-members, which a PL/pgSQL `IF NOT` treated as allowed.
   It now always returns a boolean (`db/007`). Only the new `set_onboarding_step` was exposed; never deployed.
 - Vercel functions moved to Dublin (dub1) at project level: `vercel.json` regions were being ignored (iad1).
+
+## D-012 · Stage 5 billing engine and ledger
+- Split of work: what to charge is decided by a pure TypeScript engine (`src/core/billing.ts`, 32 unit tests);
+  posting, allocation and balances are authoritative in Postgres (`db/009`), in one transaction with row locks
+  (`post_charges`, `make_adjustment`, `app.apply_credits`). The engine can be re-run safely: unique indexes
+  make every billing-run and recurring charge exist once per tenancy, type and period.
+- When charges are made: a nightly Vercel Cron (00:15 UTC, 03:15 Nairobi) creates each period's charges
+  `billing_lead_days` (default 5) before the due day, catching up missed days (at most 24 periods per tenancy).
+  "Run billing now" uses the same engine. The cron connects as `rentife_billing`, which can read what billing
+  needs and post only through `post_charges`.
+- First month billed (`tenancies.billing_from`): the tenancy start, but never a month already past its due day
+  at the time the tenancy is recorded, so moving existing tenants onto Rentife never back-bills old months.
+  Opening balances are entered as a charge (Stage 6 adds bulk import of arrears).
+- Pro-rata: monthly amount × days occupied ÷ days in that month, rounded to the nearest whole shilling
+  (half rounds up). Quarterly rent pro-rates each month of the quarter separately. Move-out mid-month credits
+  the unused days as a credit note.
+- Ledger: append-only. Charges, payments (Stage 6), credit notes, waivers and write-offs are entries; nothing is
+  edited or deleted (triggers refuse it). Credits pay off the oldest charge first, then by charge-type priority.
+  A charge is "waived" only if waivers/write-offs covered all of it (`db/012`). Only owners may write off.
+- Invoices: one per tenancy per month, numbered `INV-YYYY-000001` per organisation with no gaps.
+- Acceptance: `tests/billing-seed.ts` simulates six months of daily runs on a 58-tenancy demo organisation
+  with move-ins, move-outs, reviews, quarterly rent, recurring charges and adjustments, and reconciles every
+  balance to the cent four independent ways (22 checks, rolled back).
+- Test note: this container's network proxy rewrites the `Authorization` header to *.vercel.app, so the cron
+  route also accepts the same secret in `x-cron-secret` (constant-time compare).

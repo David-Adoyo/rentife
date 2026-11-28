@@ -226,5 +226,102 @@ begin
   perform pg_temp.ok('Signed-out visitors cannot read any table', failed);
 end $$;
 
+-- ── Stage 5: billing and ledger ──
+do $$
+declare
+  alice uuid := (select id from auth.users where email = 'alice@test.invalid');
+  bob uuid := (select id from auth.users where email = 'bob@test.invalid');
+  mgr uuid := (select id from auth.users where email = 'mgr@test.invalid');
+  care uuid := (select id from auth.users where email = 'care@test.invalid');
+  acc uuid := (select id from auth.users where email = 'acc@test.invalid');
+  po uuid := (select id from auth.users where email = 'po@test.invalid');
+  org_a uuid; ta uuid; ch uuid; r jsonb; n int; b bigint; failed boolean; msg text;
+  rent jsonb;
+begin
+  execute 'reset role';
+  select o.id into org_a from public.organisations o join public.memberships m on m.org_id = o.id where m.user_id = alice and o.name = 'Mwangaza Homes';
+  select t.id into ta from public.tenancies t where t.org_id = org_a;
+  select count(*) into n from public.charge_types where org_id = org_a;
+  perform pg_temp.ok('Billing: new organisation gets the standard charge types', n >= 10, n::text);
+  rent := jsonb_build_array(jsonb_build_object('tenancy_id', ta, 'charge_type', 'rent', 'period', '2026-12', 'amount', 1500000,
+            'due_date', '2026-12-05', 'description', 'Rent Dec 2026', 'source', 'billing_run'));
+
+  perform pg_temp.act(alice);
+  r := public.post_charges(org_a, '2026-11-30', 'manual', rent);
+  perform pg_temp.ok('Billing: owner posts a rent charge with ledger entry and invoice', (r->>'charges')::int = 1 and (r->>'invoices')::int = 1
+    and (select count(*) from public.ledger_entries where tenancy_id = ta and debit = 1500000) = 1, r::text);
+  r := public.post_charges(org_a, '2026-11-30', 'manual', rent);
+  perform pg_temp.ok('Billing: posting the same charge again creates nothing (idempotent)', (r->>'charges')::int = 0, r::text);
+  select id into ch from public.charges where tenancy_id = ta and period = '2026-12' and charge_type = 'rent';
+
+  failed := false; begin insert into public.charges (org_id, tenancy_id, charge_type, period, amount, due_date, source) values (org_a, ta, 'rent', '2026-11', 1, '2026-11-05', 'manual'); exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: charges can only be created through the billing functions', failed);
+  failed := false; begin insert into public.ledger_entries (org_id, tenancy_id, kind, credit, effective_date) values (org_a, ta, 'payment', 1500000, current_date); exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: nobody can write a ledger entry directly', failed);
+  failed := false; begin update public.ledger_entries set debit = 1 where tenancy_id = ta; get diagnostics n = row_count; failed := n = 0; exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: ledger entries cannot be edited', failed);
+  failed := false; begin delete from public.charges where id = ch; get diagnostics n = row_count; failed := n = 0; exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: charges cannot be deleted', failed);
+
+  -- Manager (scoped to the property) may credit and waive, not write off
+  perform pg_temp.act(mgr);
+  perform public.make_adjustment(ta, 'waiver', 200000, ch, 'Broken window, agreed discount');
+  select balance into b from public.tenancy_balances where tenancy_id = ta;
+  perform pg_temp.ok('Billing: manager can waive part of a charge; balance drops by exactly that', b = 1300000, b::text);
+  failed := false; begin perform public.make_adjustment(ta, 'write_off', 100000, ch, 'Trying to write off'); exception when others then failed := true; get stacked diagnostics msg = message_text; end;
+  perform pg_temp.ok('Billing: only the owner can write off a debt', failed, msg);
+  failed := false; begin perform public.make_adjustment(ta, 'waiver', 9900000, ch, 'Too much'); exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: cannot waive more than is owed', failed);
+  failed := false; begin perform public.make_adjustment(ta, 'waiver', 100, ch, ''); exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: every adjustment needs a reason', failed);
+
+  perform pg_temp.act(alice);
+  perform public.make_adjustment(ta, 'credit_note', 2000000, null, 'Paid two months ahead');
+  select balance into b from public.tenancy_balances where tenancy_id = ta;
+  select status into msg from public.charges where id = ch;
+  perform pg_temp.ok('Billing: a credit note pays off open charges and the rest is carried as credit', b = -700000 and msg = 'paid', b::text || ' ' || msg);
+
+  -- Accountant: reads money, cannot change it
+  perform pg_temp.act(acc);
+  select count(*) into n from public.statement_lines where tenancy_id = ta;
+  perform pg_temp.ok('Billing: accountant can read the statement', n = 3, n::text);
+  failed := false; begin perform public.post_charges(org_a, '2026-11-30', 'manual', rent); exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: accountant cannot post charges', failed);
+  failed := false; begin perform public.make_adjustment(ta, 'credit_note', 100, null, 'Not allowed'); exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: accountant cannot make credit notes', failed);
+
+  -- Caretaker: never sees money (masterplan §5)
+  perform pg_temp.act(care);
+  select (select count(*) from public.charges where org_id = org_a) + (select count(*) from public.ledger_entries where org_id = org_a)
+       + (select count(*) from public.invoices where org_id = org_a) + (select count(*) from public.invoice_summary where org_id = org_a)
+       + (select count(*) from public.tenancy_balances where org_id = org_a) + (select count(*) from public.statement_lines where org_id = org_a)
+       + (select count(*) from public.adjustments where org_id = org_a) into n;
+  perform pg_temp.ok('Billing: caretaker sees no charges, invoices, balances or statements', n = 0, n::text);
+
+  -- Passive owner of another property in the same org
+  perform pg_temp.act(po);
+  select count(*) into n from public.charges where tenancy_id = ta;
+  perform pg_temp.ok('Billing: property owner cannot see money for a property that isn''t theirs', n = 0);
+
+  -- Other organisation
+  perform pg_temp.act(bob);
+  select (select count(*) from public.charges where org_id = org_a) + (select count(*) from public.ledger_entries where org_id = org_a)
+       + (select count(*) from public.invoices where org_id = org_a) + (select count(*) from public.billing_runs where org_id = org_a) into n;
+  perform pg_temp.ok('Billing: other organisation sees none of it', n = 0);
+  failed := false; begin perform public.post_charges(org_a, '2026-11-30', 'manual', rent); exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: other organisation cannot post charges', failed);
+  failed := false; begin perform public.make_adjustment(ta, 'credit_note', 100, null, 'Sneaky credit'); exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: other organisation cannot make adjustments', failed);
+  failed := false; begin insert into public.recurring_charges (org_id, property_id, charge_type, amount) select org_a, id, 'garbage', 30000 from public.properties limit 1;
+    get diagnostics n = row_count; failed := n = 0; exception when others then failed := true; end;
+  perform pg_temp.ok('Billing: other organisation cannot add recurring charges', failed);
+
+  -- Anonymous
+  execute 'reset role'; perform set_config('request.jwt.claims', '{"role":"anon"}', true); execute 'set local role anon';
+  failed := false; begin select count(*) into n from public.charges; exception when others then failed := true; end;
+  execute 'reset role';
+  perform pg_temp.ok('Billing: signed-out visitors cannot read charges', failed);
+end $$;
+
 select n, check_name, ok, detail from results order by n;
 rollback;

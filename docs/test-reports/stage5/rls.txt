@@ -1,0 +1,85 @@
+✔ Unit code generated from prefix + label — SUN-B4
+✔ Bare label "B4" kept as an alias for the first unit
+✔ Duplicate alias "B4" not given to a second unit (no ambiguous matches)
+✔ Active tenancy marks the unit occupied — occupied
+✔ Other org: organisation hidden
+✔ Other org: properties hidden
+✔ Other org: units hidden
+✔ Other org: unit board hidden
+✔ Other org: tenants hidden
+✔ Other org: tenancies hidden
+✔ Other org: audit log hidden
+✔ Other org: team hidden
+✔ Other org: cannot add a unit to someone else's property
+✔ Other org: cannot link own unit to another org's tenant
+✔ Other org: cannot edit another org's tenant
+✔ Other org: cannot call helper functions on another org
+✔ Owner without two-factor (aal1) sees nothing
+✔ Owner with two-factor (aal2) sees all properties — 2
+✔ Manager without two-factor sees nothing
+✔ Scoped manager sees only their property — 1
+✔ Scoped manager can edit a unit in scope
+✔ Scoped manager cannot edit a unit out of scope
+✔ Scoped manager cannot create properties
+✔ Scoped manager sees tenants of their property
+✔ Manager cannot read the audit log
+✔ Manager cannot add team members
+✔ Caretaker sees units of their property on the board — 1
+✔ Caretaker cannot see rent amounts
+✔ Caretaker cannot read the units table directly
+✔ Caretaker cannot see tenant details
+✔ Caretaker cannot see tenancies
+✔ Caretaker cannot change units
+✔ Accountant sees all units — 2
+✔ Accountant sees tenants
+✔ Accountant sees rent amounts
+✔ Accountant cannot edit tenants
+✔ Accountant cannot edit units
+✔ Passive owner sees only their own property — 1
+✔ Passive owner cannot see other owners' properties
+✔ Passive owner sees no tenancies outside their units
+✔ Passive owner cannot edit (read-only)
+✔ Only one live tenancy per unit
+✔ Phone numbers must be in +254 format
+✔ The last owner cannot be removed
+✔ Every change is written to the audit log — 15 entries
+✔ Audit log records who made a change
+✔ Audit log cannot be edited, even by the database owner
+✔ Invitation cannot be used by a different email address
+✔ Invited person joins with their role — 2
+✔ Invitation link works only once
+✔ Register import adds units and tenants in one go — {"units": 3, "tenants": 1}
+✔ Import honours an edited unit code
+✔ A bad row cancels the whole import (nothing half-done)
+✔ Import refuses a unit code already in use
+✔ Other org: cannot import into someone else's property
+✔ Other org: payment settings hidden
+✔ Other org: cannot change onboarding progress
+✔ Caretaker cannot import units
+✔ Caretaker can read the Paybill (for the building notice)
+✔ Manager cannot change how tenants pay
+✔ Manager can set the reminder tone
+✔ Signed-out visitors cannot read any table
+✔ Billing: new organisation gets the standard charge types — 11
+✔ Billing: owner posts a rent charge with ledger entry and invoice — {"charges": 1, "invoices": 1, "credits_applied": 0}
+✔ Billing: posting the same charge again creates nothing (idempotent) — {"charges": 0, "invoices": 0, "credits_applied": 0}
+✔ Billing: charges can only be created through the billing functions
+✔ Billing: nobody can write a ledger entry directly
+✔ Billing: ledger entries cannot be edited
+✔ Billing: charges cannot be deleted
+✔ Billing: manager can waive part of a charge; balance drops by exactly that — 1300000
+✔ Billing: only the owner can write off a debt — Only the owner can write off a debt
+✔ Billing: cannot waive more than is owed
+✔ Billing: every adjustment needs a reason
+✔ Billing: a credit note pays off open charges and the rest is carried as credit — -700000 paid
+✔ Billing: accountant can read the statement — 3
+✔ Billing: accountant cannot post charges
+✔ Billing: accountant cannot make credit notes
+✔ Billing: caretaker sees no charges, invoices, balances or statements — 0
+✔ Billing: property owner cannot see money for a property that isn't theirs
+✔ Billing: other organisation sees none of it
+✔ Billing: other organisation cannot post charges
+✔ Billing: other organisation cannot make adjustments
+✔ Billing: other organisation cannot add recurring charges
+✔ Billing: signed-out visitors cannot read charges
+84/84 passed

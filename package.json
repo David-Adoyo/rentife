@@ -1,15 +1,15 @@
 {
   "name": "rentife",
-  "version": "0.1.0",
+  "version": "0.10.0",
   "private": true,
-  "description": "Rentife — rent that collects itself. Marketing website.",
+  "description": "Rentife \u2014 rent that collects itself. Marketing website.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "icons": "python3 scripts/make-icons.py",
-    "test": "tsx tests/register.test.ts"
+    "test": "tsx tests/register.test.ts && tsx tests/billing.test.ts"
   },
   "engines": {
     "node": ">=20"

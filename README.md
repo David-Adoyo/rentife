@@ -44,6 +44,15 @@ New landlords go through `/app/onboarding` (7 steps). Units and tenants can be i
 (`/app/register-template`) on step 3 or any property page. Photo import needs `ANTHROPIC_API_KEY` on Vercel.
 `npm test` runs the register-parsing tests; `db/tests/rls.sql` the database security checks (62).
 
+## Billing and ledger (Stage 5)
+
+`/app/billing` (invoices by month, recurring charges, billing runs, “Run billing now”) and `/app/tenants/<id>`
+(balance, statement, invoices, charges, credit notes, waivers, write-offs, rent changes). PDFs:
+`/app/billing/invoices/<id>` and `/app/tenants/<id>/statement?from=YYYY-MM-DD`. The nightly run is
+`/api/cron/billing` (Vercel Cron); it needs `CRON_SECRET` and `DATABASE_BILLING_URL` (the `rentife_billing` role).
+Tests: `npm test` (engine), `db/tests/rls.sql` (84 checks) and `npx tsx tests/billing-seed.ts` (prints a
+rolled-back SQL script that simulates six months and reconciles balances; run it against the database).
+
 ## Admin
 
 Staff sign in at `/admin` (email, password and an authenticator code) to work the leads: filter by status, search, call or WhatsApp, update status and notes, export CSV. Accounts are created by one-time invite links (see `docs/admin.md`). Requires `DATABASE_ADMIN_URL` and `SESSION_SECRET`.

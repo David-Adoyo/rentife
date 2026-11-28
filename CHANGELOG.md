@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.0 · 28 Nov 2026 — Stage 5
+- Billing: rent and recurring charges (service charge, garbage, security, parking) are created every night, 5 days before each tenant’s due day. Safe to re-run: nothing is ever charged twice.
+- Part months: tenants who move in or out mid-month pay only for their days (to the nearest shilling). Quarterly rent supported. Rent changes can be scheduled from a future month.
+- Invoices (INV-2026-000001…) and tenant statements with a running balance, both as PDFs with M-Pesa payment details.
+- One-off charges, credit notes, waivers and owner-only write-offs, each with a reason. Nothing is edited or deleted.
+- New Billing page and tenant page; tenants list shows what each tenant owes. Caretakers never see money.
+- Proven: 32 engine tests, 84 database security checks, and a six-month, 58-tenancy simulation that reconciles to the cent.
+
 ## 0.9.0 · 28 Nov 2026 — Stage 4
 - Seven-step onboarding wizard, saved after every step: about you, first property, units and tenants, how tenants pay, tell your tenants, reminders, go live.
 - Import units and tenants from Excel or CSV (template provided): live error highlighting, inline fixes, all-or-nothing import. 60 units in about 2 seconds.
