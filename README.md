@@ -31,6 +31,13 @@ The source logos live in `brand-source/`. `npm run icons` (Python 3 + Pillow) re
 
 `/book-setup` saves leads to `rentife.leads` in Supabase (`db/001_leads.sql`). Set `DATABASE_URL` (see `.env.example`); without it, local development prints leads to the console instead. View leads in the Supabase dashboard: project **Rentife** → Table Editor → schema `rentife` → `leads`.
 
+## Landlord app (Stage 3)
+
+`/signup` → confirm email → set up two-step sign-in → create organisation → `/app`. Properties, units
+(codes like `SUN-B4`, plus alternative codes), tenants and tenancies, team invitations and an activity log.
+Permissions live in Postgres RLS (`db/004_core.sql`); run `db/tests/rls.sql` to prove them (51 checks).
+Requires `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `RESEND_API_KEY`.
+
 ## Admin
 
 Staff sign in at `/admin` (email, password and an authenticator code) to work the leads: filter by status, search, call or WhatsApp, update status and notes, export CSV. Accounts are created by one-time invite links (see `docs/admin.md`). Requires `DATABASE_ADMIN_URL` and `SESSION_SECRET`.

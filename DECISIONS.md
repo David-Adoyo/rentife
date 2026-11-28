@@ -56,3 +56,12 @@ Free-plan limits still apply (no backups, pauses after ~7 days idle, 500 MB) —
 ## D-009 · Resend for Supabase Auth email
 Login emails go through Resend SMTP (eu-west-1) from no-reply@rentife.co.ke, with a Resend key limited
 to sending from rentife.co.ke. Branded UK-English templates in `emails/build.py`; DNS in `docs/email.md`.
+
+## D-010 · Stage 3 data access: Supabase Auth + RLS as the single source of permissions
+The landlord app talks to Postgres as the signed-in user (Supabase JWT), so Row Level Security in
+`db/004_core.sql` decides every read and write; the UI only hides what a role can't do. Child rows
+reference `(id, org_id)` of their parents, so cross-organisation links are impossible by construction.
+Two-step sign-in is enforced in the database: owner/manager memberships require JWT `aal = aal2`.
+Caretakers read units only through `unit_board`, which hides rent amounts. Invitations are accepted by
+an explicit click (email scanners can't accept them). `db/tests/rls.sql` holds 51 checks; it runs in a
+rolled-back transaction. Phone (SMS) sign-in waits for the Africa's Talking account.

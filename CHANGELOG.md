@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 · 28 Nov 2026 — Stage 3
+- Landlord app at /app: sign-up, sign-in, email sign-in links, mandatory two-step sign-in for owners and managers.
+- Organisations, five roles with property scopes, invitations by email, property owners (agency mode).
+- Properties, units with automatic M-Pesa unit codes and alternative codes, tenants, move-in and move-out.
+- Append-only activity log; RLS on every table with 51 automated isolation checks.
+
 ## 0.7.2 · 28 Nov 2026
 - Site served at rentife.co.ke (www redirects); canonical URLs, sitemap and Supabase login links use the new domain.
 
