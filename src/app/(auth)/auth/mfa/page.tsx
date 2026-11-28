@@ -10,7 +10,8 @@ export const dynamic = "force-dynamic";
 
 /**
  * Owners and managers must use an authenticator (masterplan §13). Everyone without a team
- * yet will become an owner, so they set it up too. Other roles skip this step.
+ * yet will become an owner, so they set it up too, unless they are here to accept an
+ * invitation. Caretakers, accountants and property owners skip this step.
  */
 export default async function Mfa({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const next = safeNext((await searchParams).next);
@@ -23,7 +24,9 @@ export default async function Mfa({ searchParams }: { searchParams: Promise<{ ne
     supabase.auth.mfa.getAuthenticatorAssuranceLevel(),
     supabase.auth.mfa.listFactors(),
   ]);
-  const needed = !memberships?.length || memberships.some((m) => m.two_factor_required);
+  // Someone accepting an invitation isn't an owner-to-be: their new role decides after they accept.
+  const accepting = next.startsWith("/invite/");
+  const needed = (!memberships?.length && !accepting) || !!memberships?.some((m) => m.two_factor_required);
   const verified = factors?.totp?.find((f) => f.status === "verified");
   if (!needed && !verified) redirect(next);
   if (aal?.currentLevel === "aal2") redirect(next);
