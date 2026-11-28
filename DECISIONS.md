@@ -65,3 +65,18 @@ Two-step sign-in is enforced in the database: owner/manager memberships require 
 Caretakers read units only through `unit_board`, which hides rent amounts. Invitations are accepted by
 an explicit click (email scanners can't accept them). `db/tests/rls.sql` holds 51 checks; it runs in a
 rolled-back transaction. Phone (SMS) sign-in waits for the Africa's Talking account.
+
+## D-011 · Stage 4 onboarding and register import
+- Wizard: 7 steps (masterplan §11), progress saved on `organisations.onboarding_step` and resumable.
+  Phone verification by SMS code and Daraja "Test connection" wait for Africa's Talking / Daraja (Stages 6–7);
+  the wizard records the Paybill/Till now and says so plainly. Welcome SMS and reminders are previewed, not sent.
+- Import: one rules module (`src/lib/register.ts`) runs in the browser for live highlighting and on the server
+  before saving; `import_register()` is SECURITY INVOKER (RLS applies) and atomic (all rows or none).
+  Unit codes are now unique per organisation.
+- Photo import: Claude Opus 5.5 with structured outputs (`betaZodOutputFormat`) and server-side refusal
+  fallbacks (`fallbacks: "default"`); off unless `ANTHROPIC_API_KEY` is set (and `AI_REGISTER_IMPORT` isn't "off");
+  capped at 20 photos per organisation per day (`use_ai_quota`). Photos are shrunk in the browser first.
+- Notice PDF: @react-pdf/renderer, unbundled with pdfkit's fonts traced into the function.
+- Security fix: `app.has_role()` returned NULL for non-members, which a PL/pgSQL `IF NOT` treated as allowed.
+  It now always returns a boolean (`db/007`). Only the new `set_onboarding_step` was exposed; never deployed.
+- Vercel functions moved to Dublin (dub1) at project level: `vercel.json` regions were being ignored (iad1).

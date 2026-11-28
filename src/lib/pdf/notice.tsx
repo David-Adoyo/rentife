@@ -39,7 +39,7 @@ export function NoticeDocument(d: NoticeData) {
   const paybill = d.method !== "mpesa_till";
   const en = paybill
     ? [
-        <>Open <Text style={s.big}>M-PESA</Text> → Lipa na M-PESA → <Text style={s.big}>Pay Bill</Text>.</>,
+        <>Open <Text style={s.big}>M-PESA</Text> › Lipa na M-PESA › <Text style={s.big}>Pay Bill</Text>.</>,
         <>Business number: <Text style={s.big}>{d.shortcode}</Text></>,
         d.method === "bank_paybill" && d.bankAccountHint
           ? <>Account number: <Text style={s.big}>{d.bankAccountHint}</Text>, then pay from your registered phone.</>
@@ -48,7 +48,7 @@ export function NoticeDocument(d: NoticeData) {
         <>Your Rentife receipt arrives by SMS within minutes.</>,
       ]
     : [
-        <>Open <Text style={s.big}>M-PESA</Text> → Lipa na M-PESA → <Text style={s.big}>Buy Goods and Services</Text>.</>,
+        <>Open <Text style={s.big}>M-PESA</Text> › Lipa na M-PESA › <Text style={s.big}>Buy Goods and Services</Text>.</>,
         <>Till number: <Text style={s.big}>{d.shortcode}</Text></>,
         <>Pay from the phone number your landlord has on record.</>,
         <>Enter the amount and your M-PESA PIN.</>,
@@ -56,7 +56,7 @@ export function NoticeDocument(d: NoticeData) {
       ];
   const sw = paybill
     ? [
-        <>Fungua <Text style={s.big}>M-PESA</Text> → Lipa na M-PESA → <Text style={s.big}>Pay Bill</Text>.</>,
+        <>Fungua <Text style={s.big}>M-PESA</Text> › Lipa na M-PESA › <Text style={s.big}>Pay Bill</Text>.</>,
         <>Namba ya biashara: <Text style={s.big}>{d.shortcode}</Text></>,
         d.method === "bank_paybill" && d.bankAccountHint
           ? <>Namba ya akaunti: <Text style={s.big}>{d.bankAccountHint}</Text>, kisha lipa kutoka kwa simu yako iliyosajiliwa.</>
@@ -65,7 +65,7 @@ export function NoticeDocument(d: NoticeData) {
         <>Risiti yako ya Rentife itafika kwa SMS baada ya dakika chache.</>,
       ]
     : [
-        <>Fungua <Text style={s.big}>M-PESA</Text> → Lipa na M-PESA → <Text style={s.big}>Buy Goods and Services</Text>.</>,
+        <>Fungua <Text style={s.big}>M-PESA</Text> › Lipa na M-PESA › <Text style={s.big}>Buy Goods and Services</Text>.</>,
         <>Namba ya Till: <Text style={s.big}>{d.shortcode}</Text></>,
         <>Lipa kutoka kwa namba ya simu ambayo mwenye nyumba anayo.</>,
         <>Weka kiasi na PIN yako ya M-PESA.</>,

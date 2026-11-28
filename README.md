@@ -38,6 +38,12 @@ The source logos live in `brand-source/`. `npm run icons` (Python 3 + Pillow) re
 Permissions live in Postgres RLS (`db/004_core.sql`); run `db/tests/rls.sql` to prove them (51 checks).
 Requires `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `RESEND_API_KEY`.
 
+## Onboarding and import (Stage 4)
+
+New landlords go through `/app/onboarding` (7 steps). Units and tenants can be imported from Excel/CSV
+(`/app/register-template`) on step 3 or any property page. Photo import needs `ANTHROPIC_API_KEY` on Vercel.
+`npm test` runs the register-parsing tests; `db/tests/rls.sql` the database security checks (62).
+
 ## Admin
 
 Staff sign in at `/admin` (email, password and an authenticator code) to work the leads: filter by status, search, call or WhatsApp, update status and notes, export CSV. Accounts are created by one-time invite links (see `docs/admin.md`). Requires `DATABASE_ADMIN_URL` and `SESSION_SECRET`.

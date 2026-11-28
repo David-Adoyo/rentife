@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0 · 28 Nov 2026 — Stage 4
+- Seven-step onboarding wizard, saved after every step: about you, first property, units and tenants, how tenants pay, tell your tenants, reminders, go live.
+- Import units and tenants from Excel or CSV (template provided): live error highlighting, inline fixes, all-or-nothing import. 60 units in about 2 seconds.
+- Photo-of-register import with Claude (switched off until an Anthropic API key is added; 20 photos per day per organisation).
+- Bilingual "How to pay rent" A4 notice PDF per building, with every unit code.
+- Payment method (Paybill, Till, bank Paybill or none yet) and reminder style saved for Stages 6–7.
+
 ## 0.8.0 · 28 Nov 2026 — Stage 3
 - Landlord app at /app: sign-up, sign-in, email sign-in links, mandatory two-step sign-in for owners and managers.
 - Organisations, five roles with property scopes, invitations by email, property owners (agency mode).
